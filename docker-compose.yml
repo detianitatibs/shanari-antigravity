@@ -1,0 +1,18 @@
+services:
+  web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile.dev
+    container_name: shanari-web
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./web:/app
+      - /app/node_modules
+      - ./data:/data
+      - ./db:/db
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=file:/db/database.sqlite
+      - GCS_BUCKET_NAME=local-bucket
+    tty: true

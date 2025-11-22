@@ -40,5 +40,8 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# Local server artifacts
+server.log
+server.pid
 *storybook.log
 storybook-static

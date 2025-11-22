@@ -29,7 +29,7 @@ describe('BlogPage', () => {
             },
         ];
 
-        (global.fetch as any).mockResolvedValue({
+        (global.fetch as unknown as ReturnType<typeof vi.fn>).mockResolvedValue({
             ok: true,
             json: async () => mockPosts,
         });

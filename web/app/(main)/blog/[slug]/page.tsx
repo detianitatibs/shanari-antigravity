@@ -50,7 +50,7 @@ export default async function BlogPostPage({ params }: PageProps) {
         <article className="mx-auto max-w-3xl">
             <header className="mb-8 border-b border-zinc-200 pb-8 text-center">
                 <div className="mb-4 flex justify-center gap-2">
-                    {post.categories.map((category: any) => (
+                    {post.categories.map((category: { id: number; name: string }) => (
                         <span
                             key={category.id}
                             className="rounded-full bg-zinc-100 px-3 py-1 text-sm font-medium text-zinc-600"

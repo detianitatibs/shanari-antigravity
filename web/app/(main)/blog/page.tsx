@@ -35,7 +35,7 @@ export default async function BlogPage() {
             </div>
 
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {posts.map((post: any) => (
+                {posts.map((post: { id: number; title: string; slug: string; publishedAt: string; categories: { id: number; name: string }[] }) => (
                     <PostCard
                         key={post.id}
                         title={post.title}

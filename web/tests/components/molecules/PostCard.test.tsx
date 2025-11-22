@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { PostCard } from './index';
+import { PostCard } from '../../../components/molecules/PostCard';
 import { describe, it, expect } from 'vitest';
 
 describe('PostCard', () => {

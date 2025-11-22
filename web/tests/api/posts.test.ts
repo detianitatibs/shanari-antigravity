@@ -1,7 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { GET as getPosts } from '../../app/api/posts/route';
 import { GET as getPost } from '../../app/api/posts/[slug]/route';
-import { NextResponse } from 'next/server';
 
 // Mock dependencies
 const { mockFind, mockFindOne, mockGetRepository } = vi.hoisted(() => {

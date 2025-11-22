@@ -14,10 +14,10 @@ const getDatabasePath = () => {
         }
         return process.env.DATABASE_URL;
     }
-    // Default for local development (outside docker)
-    // Assumes running from web directory or root, need to be careful.
-    // Let's assume running from web directory, so ../db/database.sqlite
-    return path.resolve(__dirname, '../../../../db/database.sqlite');
+    // Default for local development
+    // Use process.cwd() to get the project root (web directory)
+    // Then go up one level to find the db directory
+    return path.join(process.cwd(), '../db/database.sqlite');
 };
 
 export const AppDataSource = new DataSource({

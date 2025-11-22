@@ -58,6 +58,20 @@ async function seed() {
             console.log('Sample post already exists');
         }
 
+        const uiTestPost = await postRepo.findOneBy({ slug: '20251006_ui_test' });
+        if (!uiTestPost) {
+            const post = new Post();
+            post.title = 'UI Verification Post';
+            post.slug = '20251006_ui_test';
+            post.filePath = 'posts/2025/10/20251006_ui_test.md';
+            post.status = 'published';
+            post.publishedAt = new Date('2025-10-06');
+            post.author = user;
+            post.categories = [categoryEntities[0]]; // daily
+            await postRepo.save(post);
+            console.log('UI test post created');
+        }
+
         console.log('Seeding completed successfully');
         process.exit(0);
     } catch (err) {

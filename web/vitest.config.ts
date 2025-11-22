@@ -19,8 +19,8 @@ export default defineConfig({
       {
         test: {
           name: 'unit',
-          include: ['tests/**/*.test.ts'],
-          environment: 'node',
+          include: ['tests/**/*.test.ts', 'tests/**/*.test.tsx', 'components/**/*.test.tsx'],
+          environment: 'happy-dom',
         },
       },
       {

@@ -10,6 +10,9 @@ export interface PostData {
     content: string;
     status: 'published' | 'draft';
     categories: string[];
+    description?: string;
+    thumbnail?: string;
+    tags?: string[];
 }
 
 interface PostFormProps {
@@ -32,7 +35,13 @@ export const PostForm: React.FC<PostFormProps> = ({
     const [categories, setCategories] = useState<string>(
         initialData?.categories?.join(', ') || ''
     );
+    const [description, setDescription] = useState(initialData?.description || '');
+    const [thumbnail, setThumbnail] = useState(initialData?.thumbnail || '');
+    const [tags, setTags] = useState<string>(
+        initialData?.tags?.join(', ') || ''
+    );
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isUploadingThumbnail, setIsUploadingThumbnail] = useState(false);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -44,6 +53,9 @@ export const PostForm: React.FC<PostFormProps> = ({
                 content,
                 status,
                 categories: categories.split(',').map((c) => c.trim()).filter(Boolean),
+                description,
+                thumbnail,
+                tags: tags.split(',').map((t) => t.trim()).filter(Boolean),
             });
         } catch (error) {
             console.error('Error submitting form:', error);
@@ -68,6 +80,23 @@ export const PostForm: React.FC<PostFormProps> = ({
 
         const data = await res.json();
         return data.url;
+    };
+
+    const handleThumbnailUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        setIsUploadingThumbnail(true);
+        try {
+            const url = await handleImageUpload(file);
+            setThumbnail(url);
+        } catch (error) {
+            console.error('Thumbnail upload failed:', error);
+            alert('Thumbnail upload failed');
+        } finally {
+            setIsUploadingThumbnail(false);
+            e.target.value = '';
+        }
     };
 
     return (
@@ -101,6 +130,43 @@ export const PostForm: React.FC<PostFormProps> = ({
 
                 <div className="space-y-2">
                     <label className="block text-sm font-medium text-zinc-700">
+                        Description
+                    </label>
+                    <textarea
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                        rows={3}
+                        className="block w-full rounded-md border border-zinc-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm resize-none"
+                    />
+                </div>
+
+                <div className="space-y-2">
+                    <label className="block text-sm font-medium text-zinc-700">
+                        Thumbnail Image
+                    </label>
+                    <div className="flex gap-2">
+                        <input
+                            type="text"
+                            value={thumbnail}
+                            onChange={(e) => setThumbnail(e.target.value)}
+                            className="block w-full rounded-md border border-zinc-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                            placeholder="https://..."
+                        />
+                        <label className="cursor-pointer inline-flex items-center justify-center rounded-md border border-zinc-300 bg-white px-4 py-2 text-sm font-medium text-zinc-700 shadow-sm hover:bg-zinc-50">
+                            Upload
+                            <input
+                                type="file"
+                                className="hidden"
+                                accept="image/*"
+                                onChange={handleThumbnailUpload}
+                                disabled={isUploadingThumbnail}
+                            />
+                        </label>
+                    </div>
+                </div>
+
+                <div className="space-y-2">
+                    <label className="block text-sm font-medium text-zinc-700">
                         Status
                     </label>
                     <select
@@ -122,7 +188,20 @@ export const PostForm: React.FC<PostFormProps> = ({
                         value={categories}
                         onChange={(e) => setCategories(e.target.value)}
                         className="block w-full rounded-md border border-zinc-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                        placeholder="tech, nextjs, tutorial"
+                        placeholder="daily, tech"
+                    />
+                </div>
+
+                <div className="space-y-2">
+                    <label className="block text-sm font-medium text-zinc-700">
+                        Tags (comma separated)
+                    </label>
+                    <input
+                        type="text"
+                        value={tags}
+                        onChange={(e) => setTags(e.target.value)}
+                        className="block w-full rounded-md border border-zinc-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                        placeholder="tag1, tag2"
                     />
                 </div>
             </div>

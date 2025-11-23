@@ -50,7 +50,7 @@ export async function POST(request: Request) {
         }
 
         const body = await request.json();
-        const { title, slug, content, status, categories, authorId } = body;
+        const { title, slug, content, status, categories, authorId, description, thumbnail, tags } = body;
 
         // Validation
         if (!title || !slug || !content || !authorId) {
@@ -67,7 +67,18 @@ export async function POST(request: Request) {
         // Create frontmatter + content
         const fileContent = `---
 title: ${title}
+description: ${description || ''}
 date: ${new Date().toISOString()}
+image: "${thumbnail || ''}"
+math:
+license: CC @detain_itatibs
+slug: "${slug}"
+hidden: false
+draft: ${status === 'draft'}
+categories:
+${categories?.map((c: string) => `  - ${c}`).join('\n') || ''}
+tags:
+${tags?.map((t: string) => `  - ${t}`).join('\n') || ''}
 ---
 
 ${content}`;

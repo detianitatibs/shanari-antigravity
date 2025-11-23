@@ -34,12 +34,19 @@ async function verifyEditor() {
         await page.fill('input[type="text"] >> nth=0', title); // Title
         await page.fill('input[type="text"] >> nth=1', slug); // Slug
         await page.selectOption('select', 'draft'); // Status
-        await page.fill('textarea', '# Hello from Playwright'); // Content
+        // Fill Description (First textarea)
+        await page.fill('textarea >> nth=0', 'Test Description');
+
+        // Fill Content (Second textarea - inside MarkdownEditor)
+        await page.fill('textarea >> nth=1', '# Hello from Playwright');
+
         // Verify content is set
-        const contentValue = await page.inputValue('textarea');
+        const contentValue = await page.inputValue('textarea >> nth=1');
         if (contentValue !== '# Hello from Playwright') {
             throw new Error('Content textarea not filled correctly');
         }
+
+        await page.fill('input[placeholder="tag1, tag2"]', 'tag1, tag2'); // Tags
         await page.fill('input[type="text"] >> nth=2', 'test, playwright'); // Categories
         // Upload Image (Mock or Real)
         // For now, let's just assume the editor handles it.

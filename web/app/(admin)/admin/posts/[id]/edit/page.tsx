@@ -31,6 +31,9 @@ export default function EditPostPage({ params }: { params: Promise<{ id: string 
                     content: data.content,
                     status: data.status,
                     categories: data.categories.map((c: { name: string }) => c.name),
+                    description: data.description,
+                    thumbnail: data.thumbnail,
+                    tags: data.tags,
                 });
             } catch (error) {
                 console.error('Error fetching post:', error);
@@ -46,8 +49,16 @@ export default function EditPostPage({ params }: { params: Promise<{ id: string 
 
     const handleSubmit = async (data: PostData) => {
         if (!id) return;
-        // TODO: Get actual author ID.
-        const payload = { ...data, authorId: 1 };
+
+        // Fetch current user
+        const userRes = await fetch('/api/auth/me');
+        let authorId = 1; // Default fallback
+        if (userRes.ok) {
+            const user = await userRes.json();
+            authorId = user.id;
+        }
+
+        const payload = { ...data, authorId };
 
         const res = await fetch(`/api/admin/posts/${id}`, {
             method: 'PUT',

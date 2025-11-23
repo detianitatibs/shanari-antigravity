@@ -5,6 +5,7 @@ import { Category } from '../../../../../lib/db/entities/Category';
 import { AdminUser } from '../../../../../lib/db/entities/AdminUser';
 import { StorageService } from '../../../../../lib/storage';
 import { format } from 'date-fns';
+import matter from 'gray-matter';
 
 export async function GET(
     request: Request,
@@ -32,17 +33,15 @@ export async function GET(
         }
 
         // Fetch content from Storage
-        let content = await StorageService.get(post.filePath);
-
-        // Extract content after frontmatter
-        const parts = content.split('---');
-        if (parts.length >= 3) {
-            content = parts.slice(2).join('---').trim();
-        }
+        const fileContent = await StorageService.get(post.filePath);
+        const { content, data } = matter(fileContent);
 
         return NextResponse.json({
             ...post,
             content,
+            description: data.description,
+            thumbnail: data.image,
+            tags: data.tags,
         });
     } catch (error) {
         console.error('Error fetching post:', error);
@@ -97,7 +96,7 @@ export async function PUT(
 
         const { id } = await context.params;
         const body = await request.json();
-        const { title, slug, content, status, categories, authorId } = body;
+        const { title, slug, content, status, categories, authorId, description, thumbnail, tags } = body;
 
         const postRepo = AppDataSource.getRepository(Post);
         const categoryRepo = AppDataSource.getRepository(Category);
@@ -124,8 +123,19 @@ export async function PUT(
 
         const fileContent = `---
 title: ${title}
+description: ${description || ''}
 date: ${post.publishedAt ? post.publishedAt.toISOString() : new Date().toISOString()}
 updated: ${new Date().toISOString()}
+image: "${thumbnail || ''}"
+math:
+license: CC @detain_itatibs
+slug: "${slug}"
+hidden: false
+draft: ${status === 'draft'}
+categories:
+${categories?.map((c: string) => `  - ${c}`).join('\n') || ''}
+tags:
+${tags?.map((t: string) => `  - ${t}`).join('\n') || ''}
 ---
 
 ${content}`;

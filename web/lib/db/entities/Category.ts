@@ -14,6 +14,9 @@ export class Category {
     @Column({ type: 'text', unique: true })
     name!: string;
 
+    @Column({ type: 'text', unique: true })
+    slug!: string;
+
     @CreateDateColumn({ name: 'created_at' })
     createdAt!: Date;
 

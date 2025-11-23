@@ -38,6 +38,15 @@ docker compose down
 
 起動後、 [http://localhost:3000](http://localhost:3000) にアクセスしてください。
 
+### 管理画面へのアクセス
+
+管理画面は以下のURLでアクセスできます。
+
+- URL: [http://localhost:3000/admin](http://localhost:3000/admin)
+- ログイン情報 (ローカル開発用):
+  - Email: `admin@example.com`
+  - Password: `admin123`
+
 ### データベースのセットアップ (シードデータの投入)
 
 開発用の初期データをデータベースに投入するには、以下のコマンドを実行します。
@@ -47,6 +56,25 @@ Dockerコンテナが起動している状態で実行するか、ローカル�
 cd web
 npx tsx scripts/seed.ts
 ```
+
+### データベースのリセット
+
+ローカル環境のデータベースを初期化（リセット）したい場合は、以下の手順を実行してください。
+
+1. 既存のデータベースファイルを削除します。
+   ```bash
+   rm db/database.sqlite
+   ```
+2. アプリケーション（開発サーバー）を再起動します。これによってテーブルが再作成されます。
+   ```bash
+   cd web
+   npm run dev
+   ```
+3. シードデータを再投入して、管理者ユーザーを作成します。
+   ```bash
+   cd web
+   npx tsx scripts/seed.ts
+   ```
 
 ## コンポーネント開発 (Storybook)
 

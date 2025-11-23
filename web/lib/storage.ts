@@ -32,9 +32,9 @@ export const StorageService = {
             localPath = path.join(process.cwd(), '../data', filePath);
             publicUrl = ''; // Posts don't have a direct public URL in this context
         } else {
-            // Save images/others to public/uploads (publicly accessible)
-            localPath = path.join(process.cwd(), 'public', 'uploads', filePath);
-            publicUrl = `/uploads/${filePath}`;
+            // Save images/others to ../data/uploads (served via API)
+            localPath = path.join(process.cwd(), '../data', 'uploads', filePath);
+            publicUrl = `/api/uploads/${filePath}`;
         }
 
         const dir = path.dirname(localPath);
@@ -67,7 +67,7 @@ export const StorageService = {
         if (filePath.startsWith('posts/')) {
             localPath = path.join(process.cwd(), '../data', filePath);
         } else {
-            localPath = path.join(process.cwd(), 'public', 'uploads', filePath);
+            localPath = path.join(process.cwd(), '../data', 'uploads', filePath);
         }
 
         if (fs.existsSync(localPath)) {

@@ -34,8 +34,42 @@ async function verifyEditor() {
         await page.fill('input[type="text"] >> nth=0', title); // Title
         await page.fill('input[type="text"] >> nth=1', slug); // Slug
         await page.selectOption('select', 'draft'); // Status
-        await page.fill('input[type="text"] >> nth=2', 'test, playwright'); // Categories
         await page.fill('textarea', '# Hello from Playwright'); // Content
+        // Verify content is set
+        const contentValue = await page.inputValue('textarea');
+        if (contentValue !== '# Hello from Playwright') {
+            throw new Error('Content textarea not filled correctly');
+        }
+        await page.fill('input[type="text"] >> nth=2', 'test, playwright'); // Categories
+        // Upload Image (Mock or Real)
+        // For now, let's just assume the editor handles it.
+        // If we want to test image upload specifically, we'd need a file input.
+        // The current test doesn't explicitly upload an image file via the UI, 
+        // but let's check if we can hit the upload API directly to verify it works.
+
+        const buffer = Buffer.from('fake image content');
+
+        const uploadResp = await page.request.post(`${baseUrl}/api/admin/image-upload`, {
+            multipart: {
+                image: {
+                    name: 'test-image.png',
+                    mimeType: 'image/png',
+                    buffer: buffer
+                }
+            }
+        });
+
+        if (uploadResp.status() !== 200) {
+            throw new Error(`Image upload failed: ${uploadResp.status()}`);
+        }
+
+        const uploadJson = await uploadResp.json();
+        console.log('Image uploaded:', uploadJson.url);
+
+        if (!uploadJson.url.includes('/api/uploads/')) {
+            throw new Error(`Expected URL to contain /api/uploads/, got ${uploadJson.url}`);
+        }
+
         await page.click('button:has-text("Create Post")');
         await page.waitForURL(`${baseUrl}/admin/posts`);
         console.log('Post created');

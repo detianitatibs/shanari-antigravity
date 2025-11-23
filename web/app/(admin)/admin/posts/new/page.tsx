@@ -9,8 +9,14 @@ export default function NewPostPage() {
     const router = useRouter();
 
     const handleSubmit = async (data: PostData) => {
-        // TODO: Get actual author ID from session/context. For now using 1 (admin).
-        const payload = { ...data, authorId: 1 };
+        // Fetch current user
+        const userRes = await fetch('/api/auth/me');
+        if (!userRes.ok) {
+            throw new Error('Failed to get current user');
+        }
+        const user = await userRes.json();
+
+        const payload = { ...data, authorId: user.id };
 
         const res = await fetch('/api/admin/posts', {
             method: 'POST',
@@ -19,7 +25,8 @@ export default function NewPostPage() {
         });
 
         if (!res.ok) {
-            throw new Error('Failed to create post');
+            const errorData = await res.json();
+            throw new Error(errorData.error || 'Failed to create post');
         }
 
         router.push('/admin/posts');

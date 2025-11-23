@@ -24,7 +24,19 @@ export const StorageService = {
         }
 
         // Local fallback
-        const localPath = path.join(process.cwd(), 'public', 'uploads', filePath);
+        let localPath: string;
+        let publicUrl: string;
+
+        if (filePath.startsWith('posts/')) {
+            // Save posts to ../data (private/internal storage)
+            localPath = path.join(process.cwd(), '../data', filePath);
+            publicUrl = ''; // Posts don't have a direct public URL in this context
+        } else {
+            // Save images/others to public/uploads (publicly accessible)
+            localPath = path.join(process.cwd(), 'public', 'uploads', filePath);
+            publicUrl = `/uploads/${filePath}`;
+        }
+
         const dir = path.dirname(localPath);
         if (!fs.existsSync(dir)) {
             fs.mkdirSync(dir, { recursive: true });
@@ -36,7 +48,7 @@ export const StorageService = {
             fs.writeFileSync(localPath, content);
         }
 
-        return `/uploads/${filePath}`;
+        return publicUrl;
     },
 
     async get(filePath: string): Promise<string> {
@@ -51,7 +63,13 @@ export const StorageService = {
         }
 
         // Local fallback
-        const localPath = path.join(process.cwd(), 'public', 'uploads', filePath);
+        let localPath: string;
+        if (filePath.startsWith('posts/')) {
+            localPath = path.join(process.cwd(), '../data', filePath);
+        } else {
+            localPath = path.join(process.cwd(), 'public', 'uploads', filePath);
+        }
+
         if (fs.existsSync(localPath)) {
             return fs.readFileSync(localPath, 'utf-8');
         }

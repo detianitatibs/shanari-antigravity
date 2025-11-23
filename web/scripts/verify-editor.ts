@@ -89,6 +89,31 @@ async function verifyEditor() {
         }
         console.log('Update verified');
 
+        // 6. Verify Public Blog Post
+        console.log('Verifying public blog post...');
+        // We need to publish it first to see it on the blog list, but we can access it directly via slug if the API allows drafts?
+        // The public API usually filters out drafts. Let's publish it.
+
+        // Edit again to publish
+        await updatedRow.getByText('Edit').click();
+        await page.waitForURL(/\/admin\/posts\/\d+\/edit/);
+        await page.selectOption('select', 'published');
+        await page.click('button:has-text("Update Post")');
+        await page.waitForURL(`${baseUrl}/admin/posts`);
+
+        // Check public page
+        // Slug is 'slug' variable
+        const publicUrl = `${baseUrl}/blog/${slug}`;
+        console.log(`Checking public URL: ${publicUrl}`);
+
+        await page.goto(publicUrl);
+        // Check for title - use the first h1 which should be the post title
+        const publicTitle = await page.locator('h1').first().textContent();
+        if (!publicTitle?.includes(updatedTitle)) {
+            throw new Error(`Public post title mismatch. Expected "${updatedTitle}", got "${publicTitle}"`);
+        }
+        console.log('Public blog post verified');
+
     } catch (error) {
         console.error('Verification failed:', error);
         process.exit(1);

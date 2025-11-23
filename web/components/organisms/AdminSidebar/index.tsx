@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 export const AdminSidebar: React.FC = () => {
-    const pathname = usePathname();
+    const pathname = usePathname() || '';
 
     const navItems = [
         { name: 'Dashboard', href: '/admin/dashboard' },

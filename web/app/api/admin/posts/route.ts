@@ -68,13 +68,13 @@ export async function POST(request: Request) {
         // Create frontmatter + content
         const publishedAt = date ? new Date(date) : new Date();
         const fileContent = `---
-title: ${title}
-description: ${description || ''}
+title: ${JSON.stringify(title)}
+description: ${description ? JSON.stringify(description) : '""'}
 date: ${publishedAt.toISOString()}
-image: "${thumbnail || ''}"
+image: ${thumbnail ? JSON.stringify(thumbnail) : '""'}
 math:
 license: CC @detain_itatibs
-slug: "${slug}"
+slug: ${JSON.stringify(slug)}
 hidden: false
 draft: ${status === 'draft'}
 categories:

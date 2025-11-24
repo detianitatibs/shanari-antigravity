@@ -125,14 +125,14 @@ export async function PUT(
         const publishedAt = date ? new Date(date) : (post.publishedAt || new Date());
 
         const fileContent = `---
-title: ${title}
-description: ${description || ''}
+title: ${JSON.stringify(title)}
+description: ${description ? JSON.stringify(description) : '""'}
 date: ${publishedAt.toISOString()}
 updated: ${new Date().toISOString()}
-image: "${thumbnail || ''}"
+image: ${thumbnail ? JSON.stringify(thumbnail) : '""'}
 math:
 license: CC @detain_itatibs
-slug: "${slug}"
+slug: ${JSON.stringify(slug)}
 hidden: false
 draft: ${status === 'draft'}
 categories:

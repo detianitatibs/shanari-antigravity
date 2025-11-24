@@ -15,7 +15,8 @@ interface PageProps {
 
 async function getPosts(page: number) {
     const res = await fetch(`${getAppUrl()}/api/posts?page=${page}&limit=10`, {
-        cache: 'no-store',
+        next: { revalidate: 3600 },
+        cache: 'force-cache',
     });
 
     if (!res.ok) {

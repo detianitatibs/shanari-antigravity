@@ -13,7 +13,8 @@ interface PageProps {
 
 async function getPost(slug: string) {
     const res = await fetch(`${getAppUrl()}/api/posts/${slug}`, {
-        cache: 'no-store',
+        next: { revalidate: 3600 },
+        cache: 'force-cache',
     });
 
     if (res.status === 404) {

@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { Icon } from '../../../components/atoms/Icon';
 
 export default function ProfilePage() {
@@ -5,8 +6,14 @@ export default function ProfilePage() {
         <div className="space-y-12">
             {/* Hero Section */}
             <div className="text-center space-y-4">
-                <div className="mx-auto h-32 w-32 rounded-full bg-zinc-200 flex items-center justify-center">
-                    <Icon name="user" className="h-16 w-16 text-zinc-400" />
+                <div className="mx-auto h-32 w-32 relative rounded-full overflow-hidden bg-zinc-200">
+                    <Image
+                        src="/itatibs.JPEG"
+                        alt="Profile"
+                        fill
+                        className="object-cover"
+                        priority
+                    />
                 </div>
                 <h1 className="text-3xl font-bold text-zinc-900">けい@どらぴあ</h1>
                 <p className="text-zinc-600">System Engineer / ポケモンダブルバトルやるおじさん</p>

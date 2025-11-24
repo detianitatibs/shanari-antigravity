@@ -18,7 +18,7 @@ export default function Home() {
         <div className="group relative rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-md">
           <h3 className="text-lg font-semibold text-zinc-900">Profile</h3>
           <p className="mt-2 text-zinc-500">
-            Learn more about me, my background, and what I do.
+            自己紹介
           </p>
           <div className="mt-4">
             <Link href="/profile">
@@ -33,7 +33,7 @@ export default function Home() {
         <div className="group relative rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-md">
           <h3 className="text-lg font-semibold text-zinc-900">Blog</h3>
           <p className="mt-2 text-zinc-500">
-            Read my latest posts about technology, hobbies, and daily life.
+            日記、構築記事、技術記事など
           </p>
           <div className="mt-4">
             <Link href="/blog">
@@ -45,6 +45,7 @@ export default function Home() {
         </div>
 
         {/* Portfolio/Works Tile (Placeholder) */}
+        {/*
         <div className="group relative rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-md">
           <h3 className="text-lg font-semibold text-zinc-900">Works</h3>
           <p className="mt-2 text-zinc-500">
@@ -56,6 +57,7 @@ export default function Home() {
             </Button>
           </div>
         </div>
+        */}
       </div>
     </div>
   );

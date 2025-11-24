@@ -15,7 +15,7 @@ interface PageProps {
 }
 
 async function getPosts(page: number) {
-    const res = await fetch(`http://localhost:3000/api/posts?page=${page}&limit=10`, {
+    const res = await fetch(`${getAppUrl()}/api/posts?page=${page}&limit=10`, {
         cache: 'no-store',
     });
 
@@ -36,7 +36,7 @@ export default async function BlogPage({ searchParams }: PageProps) {
             <div className="border-b border-zinc-200 pb-5">
                 <h1 className="text-3xl font-bold leading-tight text-zinc-900">Blog</h1>
                 <p className="mt-2 max-w-4xl text-sm text-zinc-500">
-                    Thoughts, tutorials, and insights on software development.
+                    日記、構築記事、技術記事など
                 </p>
             </div>
 

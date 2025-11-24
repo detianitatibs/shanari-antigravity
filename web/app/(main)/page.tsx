@@ -9,7 +9,7 @@ export default function Home() {
           Welcome to Shanari
         </h1>
         <p className="text-lg text-zinc-600 max-w-2xl mx-auto">
-          A personal website for sharing thoughts, hobbies, and portfolio.
+          しゃなりとしたパーソナルウェブサイトです。
         </p>
       </div>
 

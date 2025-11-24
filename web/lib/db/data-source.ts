@@ -3,6 +3,7 @@ import { DataSource } from 'typeorm';
 import { AdminUser } from './entities/AdminUser';
 import { Post } from './entities/Post';
 import { Category } from './entities/Category';
+import { Tag } from './entities/Tag';
 import path from 'path';
 
 // Handle DATABASE_URL or default to local path
@@ -25,7 +26,7 @@ export const AppDataSource = new DataSource({
     database: getDatabasePath(),
     synchronize: true, // Auto-create tables for dev
     logging: false,
-    entities: [AdminUser, Post, Category],
+    entities: [AdminUser, Post, Category, Tag],
     migrations: [],
     subscribers: [],
 });

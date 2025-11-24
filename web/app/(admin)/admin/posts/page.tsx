@@ -2,8 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { AdminLayout } from '../../../../components/templates/AdminLayout';
 import { Button } from '../../../../components/atoms/Button';
+import { Pagination } from '../../../../components/molecules/Pagination';
 
 interface Post {
     id: number;
@@ -11,31 +13,35 @@ interface Post {
     status: string;
     slug: string;
     updatedAt: string;
+    publishedAt: string;
     author: {
         name: string;
     };
 }
 
-// interface Pagination {
-//     total: number;
-//     page: number;
-//     limit: number;
-//     totalPages: number;
-// }
+interface PaginationData {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+}
 
 export default function AdminPostsPage() {
+    const searchParams = useSearchParams();
+    const page = parseInt(searchParams.get('page') || '1');
     const [posts, setPosts] = useState<Post[]>([]);
-    // const [pagination, setPagination] = useState<Pagination | null>(null);
+    const [pagination, setPagination] = useState<PaginationData | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchPosts = async () => {
+            setLoading(true);
             try {
-                const res = await fetch('/api/admin/posts');
+                const res = await fetch(`/api/admin/posts?page=${page}&limit=10`);
                 if (res.ok) {
                     const data = await res.json();
                     setPosts(data.posts);
-                    // setPagination(data.pagination);
+                    setPagination(data.pagination);
                 }
             } catch (error) {
                 console.error('Failed to fetch posts:', error);
@@ -45,7 +51,7 @@ export default function AdminPostsPage() {
         };
 
         fetchPosts();
-    }, []);
+    }, [page]);
 
     const handleDelete = async (id: number) => {
         if (!confirm('Are you sure you want to delete this post?')) return;
@@ -56,7 +62,13 @@ export default function AdminPostsPage() {
             });
 
             if (res.ok) {
-                setPosts(posts.filter((post) => post.id !== id));
+                // Refresh posts
+                const res = await fetch(`/api/admin/posts?page=${page}&limit=10`);
+                if (res.ok) {
+                    const data = await res.json();
+                    setPosts(data.posts);
+                    setPagination(data.pagination);
+                }
             } else {
                 alert('Failed to delete post');
             }
@@ -132,7 +144,7 @@ export default function AdminPostsPage() {
                                         {post.author?.name || 'Unknown'}
                                     </td>
                                     <td className="whitespace-nowrap px-6 py-4 text-sm text-zinc-500">
-                                        {new Date(post.updatedAt).toLocaleDateString()}
+                                        {post.publishedAt ? new Date(post.publishedAt).toLocaleDateString() : '-'}
                                     </td>
                                     <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
                                         <Link
@@ -154,6 +166,13 @@ export default function AdminPostsPage() {
                     </tbody>
                 </table>
             </div>
+            {pagination && (
+                <Pagination
+                    currentPage={pagination.page}
+                    totalPages={pagination.totalPages}
+                    baseUrl="/admin/posts"
+                />
+            )}
         </AdminLayout>
     );
 }

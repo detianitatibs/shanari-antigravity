@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { AppDataSource } from '../../../../../lib/db/data-source';
 import { Post } from '../../../../../lib/db/entities/Post';
 import { Category } from '../../../../../lib/db/entities/Category';
+import { Tag } from '../../../../../lib/db/entities/Tag';
 import { AdminUser } from '../../../../../lib/db/entities/AdminUser';
 import { StorageService } from '../../../../../lib/storage';
 import { format } from 'date-fns';
@@ -165,11 +166,26 @@ ${content}`;
             }
         }
 
+        // Handle tags
+        const tagRepo = AppDataSource.getRepository(Tag);
+        const tagEntities: Tag[] = [];
+        if (tags && tags.length > 0) {
+            for (const tagName of tags) {
+                let tag = await tagRepo.findOne({ where: { name: tagName } });
+                if (!tag) {
+                    tag = tagRepo.create({ name: tagName, slug: tagName });
+                    await tagRepo.save(tag);
+                }
+                tagEntities.push(tag);
+            }
+        }
+
         post.title = title;
         post.slug = slug;
         post.filePath = filePath;
         post.status = status;
         post.categories = categoryEntities;
+        post.tags = tagEntities;
         post.publishedAt = publishedAt;
         post.thumbnail = thumbnail;
 

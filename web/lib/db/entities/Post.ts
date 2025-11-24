@@ -11,6 +11,7 @@ import {
 } from 'typeorm';
 import { AdminUser } from './AdminUser';
 import { Category } from './Category';
+import { Tag } from './Tag';
 
 @Entity('posts')
 export class Post {
@@ -49,6 +50,14 @@ export class Post {
         inverseJoinColumn: { name: 'category_id', referencedColumnName: 'id' },
     })
     categories!: Category[];
+
+    @ManyToMany(() => Tag)
+    @JoinTable({
+        name: 'post_tags',
+        joinColumn: { name: 'post_id', referencedColumnName: 'id' },
+        inverseJoinColumn: { name: 'tag_id', referencedColumnName: 'id' },
+    })
+    tags!: Tag[];
 
     @CreateDateColumn({ name: 'created_at' })
     createdAt!: Date;

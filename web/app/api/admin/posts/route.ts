@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { AppDataSource } from '../../../../lib/db/data-source';
 import { Post } from '../../../../lib/db/entities/Post';
 import { Category } from '../../../../lib/db/entities/Category';
+import { Tag } from '../../../../lib/db/entities/Tag';
 import { AdminUser } from '../../../../lib/db/entities/AdminUser';
 import { StorageService } from '../../../../lib/storage';
 import { format } from 'date-fns';
@@ -19,7 +20,7 @@ export async function GET(request: Request) {
 
         const postRepo = AppDataSource.getRepository(Post);
         const [posts, total] = await postRepo.findAndCount({
-            order: { updatedAt: 'DESC' },
+            order: { publishedAt: 'DESC', createdAt: 'DESC' },
             relations: ['categories', 'author'],
             skip,
             take: limit,
@@ -113,6 +114,20 @@ ${content}`;
             }
         }
 
+        // Handle tags
+        const tagRepo = AppDataSource.getRepository(Tag);
+        const tagEntities: Tag[] = [];
+        if (tags && tags.length > 0) {
+            for (const tagName of tags) {
+                let tag = await tagRepo.findOne({ where: { name: tagName } });
+                if (!tag) {
+                    tag = tagRepo.create({ name: tagName, slug: tagName }); // Simple slug for now
+                    await tagRepo.save(tag);
+                }
+                tagEntities.push(tag);
+            }
+        }
+
         const newPost = postRepo.create({
             title,
             slug,
@@ -120,6 +135,7 @@ ${content}`;
             status,
             author,
             categories: categoryEntities,
+            tags: tagEntities,
             publishedAt: publishedAt,
             thumbnail: thumbnail,
         });

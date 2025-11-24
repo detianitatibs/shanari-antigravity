@@ -50,7 +50,7 @@ export async function POST(request: Request) {
         }
 
         const body = await request.json();
-        const { title, slug, content, status, categories, authorId, description, thumbnail, tags } = body;
+        const { title, slug, content, status, categories, authorId, description, thumbnail, tags, date } = body;
 
         // Validation
         if (!title || !slug || !content || !authorId) {
@@ -65,10 +65,11 @@ export async function POST(request: Request) {
         const filePath = `posts/${yearMonth}/${slug}.md`;
 
         // Create frontmatter + content
+        const publishedAt = date ? new Date(date) : new Date();
         const fileContent = `---
 title: ${title}
 description: ${description || ''}
-date: ${new Date().toISOString()}
+date: ${publishedAt.toISOString()}
 image: "${thumbnail || ''}"
 math:
 license: CC @detain_itatibs
@@ -86,25 +87,26 @@ ${content}`;
         await StorageService.save(filePath, fileContent, 'text/markdown');
 
         // Save to DB
+        if (!AppDataSource.isInitialized) {
+            await AppDataSource.initialize();
+        }
+
         const postRepo = AppDataSource.getRepository(Post);
         const categoryRepo = AppDataSource.getRepository(Category);
         const userRepo = AppDataSource.getRepository(AdminUser);
 
-        const author = await userRepo.findOneBy({ id: authorId });
+        const author = await userRepo.findOne({ where: { id: authorId } });
         if (!author) {
-            return NextResponse.json(
-                { error: 'Author not found' },
-                { status: 400 }
-            );
+            return NextResponse.json({ error: 'Author not found' }, { status: 404 });
         }
 
         // Handle categories
         const categoryEntities: Category[] = [];
-        if (categories && Array.isArray(categories)) {
+        if (categories && categories.length > 0) {
             for (const catName of categories) {
-                let category = await categoryRepo.findOneBy({ name: catName });
+                let category = await categoryRepo.findOne({ where: { name: catName } });
                 if (!category) {
-                    category = categoryRepo.create({ name: catName, slug: catName.toLowerCase() }); // Simple slug generation
+                    category = categoryRepo.create({ name: catName });
                     await categoryRepo.save(category);
                 }
                 categoryEntities.push(category);
@@ -114,11 +116,12 @@ ${content}`;
         const newPost = postRepo.create({
             title,
             slug,
-            filePath, // Store the path
-            status: status || 'draft',
-            publishedAt: status === 'published' ? new Date() : undefined,
+            filePath,
+            status,
             author,
             categories: categoryEntities,
+            publishedAt: publishedAt,
+            thumbnail: thumbnail,
         });
 
         await postRepo.save(newPost);

@@ -96,7 +96,7 @@ export async function PUT(
 
         const { id } = await context.params;
         const body = await request.json();
-        const { title, slug, content, status, categories, authorId, description, thumbnail, tags } = body;
+        const { title, slug, content, status, categories, authorId, description, thumbnail, tags, date } = body;
 
         const postRepo = AppDataSource.getRepository(Post);
         const categoryRepo = AppDataSource.getRepository(Category);
@@ -121,10 +121,12 @@ export async function PUT(
             filePath = `posts/${yearMonth}/${slug}.md`;
         }
 
+        const publishedAt = date ? new Date(date) : (post.publishedAt || new Date());
+
         const fileContent = `---
 title: ${title}
 description: ${description || ''}
-date: ${post.publishedAt ? post.publishedAt.toISOString() : new Date().toISOString()}
+date: ${publishedAt.toISOString()}
 updated: ${new Date().toISOString()}
 image: "${thumbnail || ''}"
 math:
@@ -142,13 +144,13 @@ ${content}`;
 
         await StorageService.save(filePath, fileContent, 'text/markdown');
 
-        // Update Categories
+        // Handle categories
         const categoryEntities: Category[] = [];
-        if (categories && Array.isArray(categories)) {
+        if (categories && categories.length > 0) {
             for (const catName of categories) {
-                let category = await categoryRepo.findOneBy({ name: catName });
+                let category = await categoryRepo.findOne({ where: { name: catName } });
                 if (!category) {
-                    category = categoryRepo.create({ name: catName, slug: catName.toLowerCase() });
+                    category = categoryRepo.create({ name: catName });
                     await categoryRepo.save(category);
                 }
                 categoryEntities.push(category);
@@ -168,7 +170,10 @@ ${content}`;
         post.filePath = filePath;
         post.status = status;
         post.categories = categoryEntities;
+        post.publishedAt = publishedAt;
+        post.thumbnail = thumbnail;
 
+        // If status is published and publishedAt was not set, set it now
         if (status === 'published' && !post.publishedAt) {
             post.publishedAt = new Date();
         }

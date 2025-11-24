@@ -26,6 +26,9 @@ export class Post {
     @Column({ type: 'text', name: 'file_path' })
     filePath!: string;
 
+    @Column({ type: 'text', nullable: true })
+    thumbnail!: string;
+
     @Column({ type: 'text', default: 'draft' })
     status!: string;
 

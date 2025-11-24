@@ -2,6 +2,8 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import ReactMarkdown from 'react-markdown';
 import { format } from 'date-fns';
+import matter from 'gray-matter';
+import rehypeRaw from 'rehype-raw';
 
 interface PageProps {
     params: Promise<{ slug: string }>;
@@ -46,6 +48,8 @@ export default async function BlogPostPage({ params }: PageProps) {
         notFound();
     }
 
+    const { content } = matter(post.content);
+
     return (
         <article className="mx-auto max-w-3xl">
             <header className="mb-8 border-b border-zinc-200 pb-8 text-center">
@@ -66,7 +70,7 @@ export default async function BlogPostPage({ params }: PageProps) {
             </header>
 
             <div className="prose prose-zinc mx-auto max-w-none">
-                <ReactMarkdown>{post.content}</ReactMarkdown>
+                <ReactMarkdown rehypePlugins={[rehypeRaw]}>{content}</ReactMarkdown>
             </div>
         </article>
     );

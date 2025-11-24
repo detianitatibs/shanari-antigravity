@@ -12,6 +12,7 @@ interface PostCardProps {
     slug: string;
     publishedAt: string;
     categories: Category[];
+    thumbnail?: string;
 }
 
 export const PostCard: React.FC<PostCardProps> = ({
@@ -19,26 +20,38 @@ export const PostCard: React.FC<PostCardProps> = ({
     slug,
     publishedAt,
     categories,
+    thumbnail,
 }) => {
     return (
-        <Link href={`/blog/${slug}`} className="group block">
-            <article className="rounded-lg border border-zinc-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-md">
-                <div className="mb-2 flex items-center gap-2 text-sm text-zinc-500">
-                    <time dateTime={publishedAt}>
-                        {format(new Date(publishedAt), 'yyyy.MM.dd')}
-                    </time>
-                    {categories.map((category) => (
-                        <span
-                            key={category.id}
-                            className="rounded-full bg-zinc-100 px-2 py-0.5 text-xs font-medium text-zinc-600"
-                        >
-                            {category.name}
-                        </span>
-                    ))}
+        <Link href={`/blog/${slug}`} className="group block h-full">
+            <article className="flex h-full flex-col rounded-lg border border-zinc-200 bg-white shadow-sm transition-shadow hover:shadow-md">
+                {thumbnail && (
+                    <div className="aspect-video w-full overflow-hidden rounded-t-lg bg-zinc-100">
+                        <img
+                            src={thumbnail}
+                            alt={title}
+                            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        />
+                    </div>
+                )}
+                <div className="flex flex-1 flex-col p-6">
+                    <div className="mb-2 flex flex-wrap items-center gap-2 text-sm text-zinc-500">
+                        <time dateTime={publishedAt}>
+                            {format(new Date(publishedAt), 'yyyy.MM.dd')}
+                        </time>
+                        {categories.map((category) => (
+                            <span
+                                key={category.id}
+                                className="rounded-full bg-zinc-100 px-2 py-0.5 text-xs font-medium text-zinc-600"
+                            >
+                                {category.name}
+                            </span>
+                        ))}
+                    </div>
+                    <h3 className="text-xl font-bold text-zinc-900 group-hover:text-indigo-600">
+                        {title}
+                    </h3>
                 </div>
-                <h3 className="text-xl font-bold text-zinc-900 group-hover:text-indigo-600">
-                    {title}
-                </h3>
             </article>
         </Link>
     );

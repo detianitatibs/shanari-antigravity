@@ -13,6 +13,7 @@ export interface PostData {
     description?: string;
     thumbnail?: string;
     tags?: string[];
+    date?: string;
 }
 
 interface PostFormProps {
@@ -40,6 +41,25 @@ export const PostForm: React.FC<PostFormProps> = ({
     const [tags, setTags] = useState<string>(
         initialData?.tags?.join(', ') || ''
     );
+    // Default to current JST time if not provided
+    const [date, setDate] = useState(() => {
+        if (initialData?.date) {
+            // If initial data is ISO string (e.g. 2025-11-24T12:00:00.000Z)
+            // We want to show it as JST time in the input.
+            // 12:00Z -> 21:00 JST.
+            // So we need to shift it by 9 hours.
+            const d = new Date(initialData.date);
+            const jstDate = new Date(d.getTime() + 9 * 60 * 60 * 1000);
+            return jstDate.toISOString().slice(0, 16);
+        }
+
+        // Default to current JST time
+        const now = new Date();
+        // Get UTC timestamp and add 9 hours to get "JST time" as UTC
+        const jstDate = new Date(now.getTime() + 9 * 60 * 60 * 1000);
+        return jstDate.toISOString().slice(0, 16); // YYYY-MM-DDTHH:mm
+    });
+
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isUploadingThumbnail, setIsUploadingThumbnail] = useState(false);
 
@@ -47,6 +67,9 @@ export const PostForm: React.FC<PostFormProps> = ({
         e.preventDefault();
         setIsSubmitting(true);
         try {
+            // Append +09:00 to treat the input time as JST
+            const dateWithOffset = date ? `${date}:00+09:00` : undefined;
+
             await onSubmit({
                 title,
                 slug,
@@ -56,6 +79,7 @@ export const PostForm: React.FC<PostFormProps> = ({
                 description,
                 thumbnail,
                 tags: tags.split(',').map((t) => t.trim()).filter(Boolean),
+                date: dateWithOffset,
             });
         } catch (error) {
             console.error('Error submitting form:', error);
@@ -137,6 +161,18 @@ export const PostForm: React.FC<PostFormProps> = ({
                         onChange={(e) => setDescription(e.target.value)}
                         rows={3}
                         className="block w-full rounded-md border border-zinc-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm resize-none"
+                    />
+                </div>
+
+                <div className="space-y-2">
+                    <label className="block text-sm font-medium text-zinc-700">
+                        Published Date (JST)
+                    </label>
+                    <input
+                        type="datetime-local"
+                        value={date}
+                        onChange={(e) => setDate(e.target.value)}
+                        className="block w-full rounded-md border border-zinc-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                     />
                 </div>
 

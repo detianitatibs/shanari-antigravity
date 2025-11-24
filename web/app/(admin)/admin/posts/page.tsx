@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { AdminLayout } from '../../../../components/templates/AdminLayout';
@@ -26,7 +26,7 @@ interface PaginationData {
     totalPages: number;
 }
 
-export default function AdminPostsPage() {
+function AdminPostsContent() {
     const searchParams = useSearchParams();
     const page = parseInt(searchParams.get('page') || '1');
     const [posts, setPosts] = useState<Post[]>([]);
@@ -79,7 +79,7 @@ export default function AdminPostsPage() {
     };
 
     return (
-        <AdminLayout>
+        <>
             <div className="mb-6 flex items-center justify-between">
                 <h1 className="text-2xl font-bold text-zinc-900">Posts</h1>
                 <Link href="/admin/posts/new">
@@ -173,6 +173,16 @@ export default function AdminPostsPage() {
                     baseUrl="/admin/posts"
                 />
             )}
+        </>
+    );
+}
+
+export default function AdminPostsPage() {
+    return (
+        <AdminLayout>
+            <Suspense fallback={<div>Loading...</div>}>
+                <AdminPostsContent />
+            </Suspense>
         </AdminLayout>
     );
 }

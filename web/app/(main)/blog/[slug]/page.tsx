@@ -1,16 +1,18 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import ReactMarkdown from 'react-markdown';
+import rehypeRaw from 'rehype-raw';
+import { Sidebar } from '../../../../components/organisms/Sidebar';
 import { format } from 'date-fns';
 import matter from 'gray-matter';
-import rehypeRaw from 'rehype-raw';
+import { getAppUrl } from '../../../../lib/utils';
 
 interface PageProps {
     params: Promise<{ slug: string }>;
 }
 
 async function getPost(slug: string) {
-    const res = await fetch(`http://localhost:3000/api/posts/${slug}`, {
+    const res = await fetch(`${getAppUrl()}/api/posts/${slug}`, {
         cache: 'no-store',
     });
 

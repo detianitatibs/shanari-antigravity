@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { PostCard } from '../../../../../components/molecules/PostCard';
 import { Sidebar } from '../../../../../components/organisms/Sidebar';
 import { Pagination } from '../../../../../components/molecules/Pagination';
+import { getAppUrl } from '../../../../../lib/utils';
 
 interface PageProps {
     params: Promise<{ slug: string }>;
@@ -10,7 +11,7 @@ interface PageProps {
 }
 
 async function getPosts(categorySlug: string, page: number) {
-    const res = await fetch(`http://localhost:3000/api/posts?category=${categorySlug}&page=${page}&limit=10`, {
+    const res = await fetch(`${getAppUrl()}/api/posts?category=${categorySlug}&page=${page}&limit=10`, {
         cache: 'no-store',
     });
 

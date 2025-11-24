@@ -21,7 +21,7 @@ export async function GET() {
             id: payload.uid,
             email: payload.email,
         });
-    } catch (error) {
+    } catch {
         return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
     }
 }

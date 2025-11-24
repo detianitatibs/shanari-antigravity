@@ -2,7 +2,6 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
-import { Sidebar } from '../../../../components/organisms/Sidebar';
 import { Icon } from '../../../../components/atoms/Icon';
 import { format } from 'date-fns';
 import matter from 'gray-matter';
@@ -67,7 +66,7 @@ export default async function BlogPostPage({ params }: PageProps) {
 
     const shareUrl = `${getAppUrl()}/blog/${post.slug}`;
     const shareText = post.title;
-    const shareHashtags = post.tags?.map((t: any) => t.name).join(',') || '';
+    const shareHashtags = post.tags?.map((t: { name: string }) => t.name).join(',') || '';
     const twitterShareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}&hashtags=${encodeURIComponent(shareHashtags)}`;
 
     return (

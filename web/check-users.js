@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 const { DataSource } = require('typeorm');
 const { AdminUser } = require('./lib/db/entities/AdminUser');
 const { Post } = require('./lib/db/entities/Post');

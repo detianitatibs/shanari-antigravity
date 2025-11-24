@@ -12,7 +12,6 @@ async function verifyJapaneseFiltering() {
             await AppDataSource.initialize();
         }
 
-        const postRepo = AppDataSource.getRepository(Post);
         const categoryRepo = AppDataSource.getRepository(Category);
         const tagRepo = AppDataSource.getRepository(Tag);
         const userRepo = AppDataSource.getRepository(AdminUser);

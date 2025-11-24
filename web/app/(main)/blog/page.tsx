@@ -2,7 +2,6 @@ import { Metadata } from 'next';
 import { PostCard } from '../../../components/molecules/PostCard';
 import { Sidebar } from '../../../components/organisms/Sidebar';
 import { Pagination } from '../../../components/molecules/Pagination';
-import { notFound } from 'next/navigation';
 import { getAppUrl } from '../../../lib/utils';
 
 export const metadata: Metadata = {

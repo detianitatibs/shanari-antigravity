@@ -61,7 +61,7 @@ export const Sidebar: React.FC = async () => {
             <div className="rounded-lg bg-white p-6 shadow-sm">
                 <h3 className="mb-4 text-lg font-medium text-zinc-900">Tags</h3>
                 <div className="flex flex-wrap gap-2">
-                    {tags.map((tag) => (
+                    {tags.map((tag: Tag) => (
                         <a
                             key={tag.id}
                             href={`/blog/tag/${tag.slug}`}
@@ -80,7 +80,7 @@ export const Sidebar: React.FC = async () => {
             <div className="rounded-lg bg-white p-6 shadow-sm">
                 <h3 className="mb-4 text-lg font-medium text-zinc-900">Archives</h3>
                 <ul className="space-y-2">
-                    {archives.map((archive: any) => {
+                    {archives.map((archive: { year: string; month: string; count: number }) => {
                         // Format month name (e.g. "01" -> "January")
                         const date = new Date(parseInt(archive.year), parseInt(archive.month) - 1);
                         const monthName = date.toLocaleString('en-US', { month: 'long' });

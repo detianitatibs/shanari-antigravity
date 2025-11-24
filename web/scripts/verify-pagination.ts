@@ -10,7 +10,6 @@ async function verifyPagination() {
             await AppDataSource.initialize();
         }
 
-        const postRepo = AppDataSource.getRepository(Post);
         const userRepo = AppDataSource.getRepository(AdminUser);
 
         // Ensure admin user exists

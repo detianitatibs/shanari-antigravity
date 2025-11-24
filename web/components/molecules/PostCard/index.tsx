@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { format } from 'date-fns';
 
 interface Category {
@@ -26,11 +27,12 @@ export const PostCard: React.FC<PostCardProps> = ({
         <Link href={`/blog/${slug}`} className="group block h-full">
             <article className="flex h-full flex-col rounded-lg border border-zinc-200 bg-white shadow-sm transition-shadow hover:shadow-md">
                 {thumbnail && (
-                    <div className="aspect-video w-full overflow-hidden rounded-t-lg bg-zinc-100">
-                        <img
+                    <div className="aspect-video w-full overflow-hidden rounded-t-lg bg-zinc-100 relative">
+                        <Image
                             src={thumbnail}
                             alt={title}
-                            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                            fill
+                            className="object-cover transition-transform duration-300 group-hover:scale-105"
                         />
                     </div>
                 )}

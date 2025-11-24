@@ -54,7 +54,7 @@ export default async function TagPage({ params, searchParams }: PageProps) {
                 <div className="flex-1">
                     <div className="grid gap-6 sm:grid-cols-2">
                         {posts.length > 0 ? (
-                            posts.map((post: any) => (
+                            posts.map((post: { id: number; title: string; slug: string; publishedAt: string; categories: { id: number; name: string }[]; thumbnail: string }) => (
                                 <PostCard
                                     key={post.id}
                                     title={post.title}

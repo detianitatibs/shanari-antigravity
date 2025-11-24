@@ -10,7 +10,6 @@ async function verifyAdminPagination() {
             await AppDataSource.initialize();
         }
 
-        const postRepo = AppDataSource.getRepository(Post);
         const userRepo = AppDataSource.getRepository(AdminUser);
 
         // Ensure admin user exists
@@ -97,7 +96,7 @@ async function verifyAdminPagination() {
             // Let's verify presence of Admin Post 5 on Page 2.
         }
 
-        const post5 = data2.posts.find((p: any) => p.title === 'Admin Pagination Post 5');
+        const post5 = data2.posts.find((p: { title: string }) => p.title === 'Admin Pagination Post 5');
         if (!post5) {
             throw new Error('Expected "Admin Pagination Post 5" on page 2');
         }

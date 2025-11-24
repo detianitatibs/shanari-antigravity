@@ -1,0 +1,25 @@
+import {
+    Entity,
+    PrimaryGeneratedColumn,
+    Column,
+    CreateDateColumn,
+    UpdateDateColumn,
+} from 'typeorm';
+
+@Entity('tags')
+export class Tag {
+    @PrimaryGeneratedColumn()
+    id!: number;
+
+    @Column({ type: 'text', unique: true })
+    name!: string;
+
+    @Column({ type: 'text', unique: true })
+    slug!: string;
+
+    @CreateDateColumn({ name: 'created_at' })
+    createdAt!: Date;
+
+    @UpdateDateColumn({ name: 'updated_at' })
+    updatedAt!: Date;
+}

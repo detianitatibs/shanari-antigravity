@@ -1,15 +1,21 @@
-import { Icon } from '../../../components/atoms/Icon';
+import Image from 'next/image';
 
 export default function ProfilePage() {
     return (
         <div className="space-y-12">
             {/* Hero Section */}
             <div className="text-center space-y-4">
-                <div className="mx-auto h-32 w-32 rounded-full bg-zinc-200 flex items-center justify-center">
-                    <Icon name="user" className="h-16 w-16 text-zinc-400" />
+                <div className="mx-auto h-32 w-32 relative rounded-full overflow-hidden bg-zinc-200">
+                    <Image
+                        src="/itatibs.JPEG"
+                        alt="Profile"
+                        fill
+                        className="object-cover"
+                        priority
+                    />
                 </div>
-                <h1 className="text-3xl font-bold text-zinc-900">Keisuke Tokuda</h1>
-                <p className="text-zinc-600">Software Engineer / Web Developer</p>
+                <h1 className="text-3xl font-bold text-zinc-900">けい@どらぴあ</h1>
+                <p className="text-zinc-600">System Engineer / ポケモンダブルバトルやるおじさん</p>
             </div>
 
             {/* Bio Section */}
@@ -17,16 +23,18 @@ export default function ProfilePage() {
                 <section>
                     <h2 className="text-xl font-semibold text-zinc-900 mb-3">About Me</h2>
                     <p className="text-zinc-600 leading-relaxed">
-                        Hello! I&apos;m a software engineer based in Japan. I enjoy building web applications
-                        and exploring new technologies. This website is my personal space to share
-                        my thoughts and projects.
+                        ポケモンゲームのダブルバトルをよくやります。
                     </p>
+                    <p className="text-zinc-600 leading-relaxed">
+                        ITに関するお仕事をやりながら、1歳児の子育てもやってます。
+                    </p>
+
                 </section>
 
                 <section>
-                    <h2 className="text-xl font-semibold text-zinc-900 mb-3">Skills</h2>
+                    <h2 className="text-xl font-semibold text-zinc-900 mb-3">Attributes</h2>
                     <div className="flex flex-wrap gap-2">
-                        {['TypeScript', 'React', 'Next.js', 'Node.js', 'Python', 'Docker', 'GCP'].map((skill) => (
+                        {['ポケモンSV', 'ダブルバトル', '子育て', 'Python', 'Solution Architect', 'AI'].map((skill) => (
                             <span
                                 key={skill}
                                 className="inline-flex items-center rounded-full bg-zinc-100 px-3 py-1 text-sm font-medium text-zinc-800"
@@ -40,7 +48,7 @@ export default function ProfilePage() {
                 <section>
                     <h2 className="text-xl font-semibold text-zinc-900 mb-3">Contact</h2>
                     <p className="text-zinc-600">
-                        You can reach me via email at <a href="mailto:example@example.com" className="text-indigo-600 hover:underline">example@example.com</a>.
+                        X: <a href="https://x.com/itatibs" target="_blank" className="text-indigo-600 hover:underline">itatibs</a>
                     </p>
                 </section>
             </div>

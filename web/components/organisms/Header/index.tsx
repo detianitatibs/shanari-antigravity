@@ -1,8 +1,7 @@
 import React from 'react';
 import { Logo } from '../../atoms/Logo';
 import { Nav } from '../../molecules/Nav';
-import { Icon } from '../../atoms/Icon';
-import Link from 'next/link';
+import Image from 'next/image';
 
 export const Header: React.FC = () => {
     return (
@@ -16,13 +15,20 @@ export const Header: React.FC = () => {
                         </div>
                     </div>
                     <div className="flex items-center gap-4">
-                        <Link
-                            href="/profile"
-                            className="p-2 text-zinc-500 hover:text-zinc-700"
-                            aria-label="Profile"
+                        <a
+                            href="https://x.com/itatibs"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block h-8 w-8 relative rounded-full overflow-hidden hover:opacity-80 transition-opacity"
+                            aria-label="X (Twitter) Profile"
                         >
-                            <Icon name="user" className="h-6 w-6" />
-                        </Link>
+                            <Image
+                                src="/itatibs.JPEG"
+                                alt="Profile"
+                                fill
+                                className="object-cover"
+                            />
+                        </a>
                     </div>
                 </div>
             </div>

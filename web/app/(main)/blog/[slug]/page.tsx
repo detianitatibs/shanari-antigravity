@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import { Sidebar } from '../../../../components/organisms/Sidebar';
+import { Icon } from '../../../../components/atoms/Icon';
 import { format } from 'date-fns';
 import matter from 'gray-matter';
 import { getAppUrl } from '../../../../lib/utils';
@@ -39,6 +40,18 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
     return {
         title: `${post.title} | Shanari`,
+        description: matter(post.content).data.description,
+        openGraph: {
+            title: post.title,
+            description: matter(post.content).data.description,
+            images: post.thumbnail ? [post.thumbnail] : [],
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: post.title,
+            description: matter(post.content).data.description,
+            images: post.thumbnail ? [post.thumbnail] : [],
+        },
     };
 }
 
@@ -50,25 +63,51 @@ export default async function BlogPostPage({ params }: PageProps) {
         notFound();
     }
 
-    const { content } = matter(post.content);
+    const { content, data } = matter(post.content);
+
+    const shareUrl = `${getAppUrl()}/blog/${post.slug}`;
+    const shareText = post.title;
+    const shareHashtags = post.tags?.map((t: any) => t.name).join(',') || '';
+    const twitterShareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}&hashtags=${encodeURIComponent(shareHashtags)}`;
 
     return (
         <article className="mx-auto max-w-3xl">
             <header className="mb-8 border-b border-zinc-200 pb-8 text-center">
-                <div className="mb-4 flex justify-center gap-2">
+                <div className="mb-4 flex flex-wrap justify-center gap-2">
                     {post.categories.map((category: { id: number; name: string }) => (
                         <span
-                            key={category.id}
-                            className="rounded-full bg-zinc-100 px-3 py-1 text-sm font-medium text-zinc-600"
+                            key={`cat-${category.id}`}
+                            className="rounded-full bg-indigo-100 px-3 py-1 text-sm font-medium text-indigo-800"
                         >
                             {category.name}
                         </span>
                     ))}
+                    {post.tags?.map((tag: { id: number; name: string }) => (
+                        <span
+                            key={`tag-${tag.id}`}
+                            className="rounded-full bg-zinc-100 px-3 py-1 text-sm font-medium text-zinc-600"
+                        >
+                            #{tag.name}
+                        </span>
+                    ))}
                 </div>
-                <h1 className="mb-4 text-4xl font-bold text-zinc-900">{post.title}</h1>
-                <time dateTime={post.publishedAt} className="text-zinc-500">
-                    {format(new Date(post.publishedAt), 'MMMM d, yyyy')}
-                </time>
+                <h1 className="mb-2 text-4xl font-bold text-zinc-900">{post.title}</h1>
+                {data.description && (
+                    <p className="mb-4 text-lg text-zinc-600">{data.description}</p>
+                )}
+                <div className="flex flex-col items-center gap-4">
+                    <time dateTime={post.publishedAt} className="text-zinc-500">
+                        {format(new Date(post.publishedAt), 'MMMM d, yyyy')}
+                    </time>
+                    <a
+                        href={twitterShareUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 rounded-full bg-black px-4 py-2 text-sm font-medium text-white transition-opacity hover:opacity-80"
+                    >
+                        <Icon name="twitter-x" className="h-4 w-4" />
+                    </a>
+                </div>
             </header>
 
             <div className="prose prose-zinc mx-auto max-w-none">

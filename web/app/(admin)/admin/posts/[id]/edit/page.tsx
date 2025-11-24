@@ -34,6 +34,7 @@ export default function EditPostPage({ params }: { params: Promise<{ id: string 
                     description: data.description,
                     thumbnail: data.thumbnail,
                     tags: data.tags,
+                    date: data.publishedAt,
                 });
             } catch (error) {
                 console.error('Error fetching post:', error);

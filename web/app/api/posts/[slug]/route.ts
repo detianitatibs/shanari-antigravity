@@ -16,7 +16,7 @@ export async function GET(
         const postRepo = AppDataSource.getRepository(Post);
         const post = await postRepo.findOne({
             where: { slug, status: 'published' },
-            relations: ['categories', 'author'],
+            relations: ['categories', 'tags', 'author'],
         });
 
         if (!post) {

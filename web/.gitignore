@@ -45,3 +45,5 @@ server.log
 server.pid
 *storybook.log
 storybook-static
+
+LocalMemo.md

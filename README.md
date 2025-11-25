@@ -162,9 +162,8 @@ GitHub ActionsからGoogle Cloudへ安全にデプロイするために、Worklo
     gcloud iam service-accounts add-iam-policy-binding "${SERVICE_ACCOUNT_EMAIL}" \
       --project="${PROJECT_ID}" \
       --role="roles/iam.workloadIdentityUser" \
-      --member="principalSet://iam.googleapis.com/projects/${PROJECT_NUMBER}/locations/global/workloadIdentityPools/github-actions-pool/attribute.repository/YOUR_GITHUB_USER/YOUR_REPO_NAME"
+      --member="principalSet://iam.googleapis.com/projects/${PROJECT_NUMBER}/locations/global/workloadIdentityPools/github-actions-pool/attribute.repository/detianitaibs/shanari-antigravity"
     ```
-    ※ `YOUR_GITHUB_USER/YOUR_REPO_NAME` は実際のリポジトリ名（例: `detianitaibs/shanari-antigravity`）に置き換えてください。
     ※ `${SERVICE_ACCOUNT_EMAIL}` は作成したサービスアカウントのメールアドレスです。
 
 ### 3. GitHub Secrets / Variables の設定

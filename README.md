@@ -154,6 +154,17 @@ GitHub ActionsからGoogle Cloudへ安全にデプロイするために、Worklo
     *   Artifact Registry 書き込み (`roles/artifactregistry.writer`)
     *   Storage 管理者 (`roles/storage.admin`)
 5.  **バインディング**: Workload Identity プールとサービスアカウントを紐付けます。
+    ```bash
+    # プロジェクト番号の取得
+    PROJECT_NUMBER=$(gcloud projects describe "${PROJECT_ID}" --format="value(projectNumber)")
+
+    # IAMポリシーバインディングの追加
+    gcloud iam service-accounts add-iam-policy-binding "${SERVICE_ACCOUNT_EMAIL}" \
+      --project="${PROJECT_ID}" \
+      --role="roles/iam.workloadIdentityUser" \
+      --member="principalSet://iam.googleapis.com/projects/${PROJECT_NUMBER}/locations/global/workloadIdentityPools/github-actions-pool/attribute.repository/detianitaibs/shanari-antigravity"
+    ```
+    ※ `${SERVICE_ACCOUNT_EMAIL}` は作成したサービスアカウントのメールアドレスです。
 
 ### 3. GitHub Secrets / Variables の設定
 

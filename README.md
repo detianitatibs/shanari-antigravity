@@ -144,7 +144,7 @@ GitHub ActionsからGoogle Cloudへ安全にデプロイするために、Worklo
       --workload-identity-pool="github-actions-pool" \
       --display-name="GitHub Actions Provider" \
       --attribute-mapping="google.subject=assertion.sub,attribute.actor=assertion.actor,attribute.repository=assertion.repository" \
-      --attribute-condition="assertion.repository == 'detianitaibs/shanari-antigravity'" \
+      --attribute-condition="assertion.repository == 'detianitatibs/shanari-antigravity'" \
       --issuer-uri="https://token.actions.githubusercontent.com"
     ```
 3.  **サービスアカウントの作成**: GitHub Actionsが使用するサービスアカウントを作成します。
@@ -162,7 +162,7 @@ GitHub ActionsからGoogle Cloudへ安全にデプロイするために、Worklo
     gcloud iam service-accounts add-iam-policy-binding "${SERVICE_ACCOUNT_EMAIL}" \
       --project="${PROJECT_ID}" \
       --role="roles/iam.workloadIdentityUser" \
-      --member="principalSet://iam.googleapis.com/projects/${PROJECT_NUMBER}/locations/global/workloadIdentityPools/github-actions-pool/attribute.repository/detianitaibs/shanari-antigravity"
+      --member="principalSet://iam.googleapis.com/projects/${PROJECT_NUMBER}/locations/global/workloadIdentityPools/github-actions-pool/attribute.repository/detianitatibs/shanari-antigravity"
     ```
     ※ `${SERVICE_ACCOUNT_EMAIL}` は作成したサービスアカウントのメールアドレスです。
 

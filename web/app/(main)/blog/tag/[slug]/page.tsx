@@ -12,7 +12,8 @@ interface PageProps {
 
 async function getPosts(tagSlug: string, page: number) {
     const res = await fetch(`${getAppUrl()}/api/posts?tag=${tagSlug}&page=${page}&limit=10`, {
-        cache: 'no-store',
+        next: { revalidate: 3600 },
+        cache: 'force-cache',
     });
 
     if (!res.ok) {

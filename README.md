@@ -144,6 +144,7 @@ GitHub ActionsからGoogle Cloudへ安全にデプロイするために、Worklo
       --workload-identity-pool="github-actions-pool" \
       --display-name="GitHub Actions Provider" \
       --attribute-mapping="google.subject=assertion.sub,attribute.actor=assertion.actor,attribute.repository=assertion.repository" \
+      --attribute-condition="assertion.repository == 'detianitaibs/shanari-antigravity'" \
       --issuer-uri="https://token.actions.githubusercontent.com"
     ```
 3.  **サービスアカウントの作成**: GitHub Actionsが使用するサービスアカウントを作成します。

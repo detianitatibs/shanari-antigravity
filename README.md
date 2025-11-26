@@ -179,6 +179,18 @@ GitHubリポジトリの `Settings > Secrets and variables > Actions` に以下�
 | `GCS_BUCKET_NAME` | 作成したCloud Storageバケット名 |
 | `JWT_SECRET` | 認証トークン生成用の秘密鍵 (ランダムな文字列) |
 | `NEXT_PUBLIC_APP_URL` | 本番環境のURL (例: `https://shanari-web-xyz.a.run.app`) |
+| `AUTH_SECRET` | NextAuth.js用の秘密鍵 (`npx auth secret`で生成) |
+| `AUTH_GOOGLE_ID` | Google OAuth Client ID |
+| `AUTH_GOOGLE_SECRET` | Google OAuth Client Secret |
+| `ADMIN_EMAIL` | 管理者としてログインを許可するGoogleアカウントのメールアドレス (例: `XXXXX@AAA.BBB`) |
+
+#### Google OAuth 設定
+1. Google Cloud Consoleの「APIとサービス」>「認証情報」で「OAuth クライアント ID」を作成します。
+2. **アプリケーションの種類**: ウェブ アプリケーション
+3. **承認済みのリダイレクト URI**:
+   - ローカル: `http://localhost:3000/api/auth/callback/google`
+   - 本番: `https://[Cloud Run URL]/api/auth/callback/google`
+4. 作成されたクライアントIDとシークレットをGitHub Secretsに登録します。
 
 ### 4. Cloud Run の構成 (CDパイプライン)
 

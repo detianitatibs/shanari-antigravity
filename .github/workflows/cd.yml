@@ -60,3 +60,7 @@ jobs:
           GCS_BUCKET_NAME=${{ secrets.GCS_BUCKET_NAME }}
           JWT_SECRET=${{ secrets.JWT_SECRET }}
           NEXT_PUBLIC_APP_URL=${{ secrets.NEXT_PUBLIC_APP_URL }}
+          AUTH_SECRET=${{ secrets.AUTH_SECRET }}
+          AUTH_GOOGLE_ID=${{ secrets.AUTH_GOOGLE_ID }}
+          AUTH_GOOGLE_SECRET=${{ secrets.AUTH_GOOGLE_SECRET }}
+          ADMIN_EMAIL=${{ secrets.ADMIN_EMAIL }}

@@ -182,7 +182,7 @@ GitHubリポジトリの `Settings > Secrets and variables > Actions` に以下�
 | `AUTH_SECRET` | NextAuth.js用の秘密鍵 (`npx auth secret`で生成) |
 | `AUTH_GOOGLE_ID` | Google OAuth Client ID |
 | `AUTH_GOOGLE_SECRET` | Google OAuth Client Secret |
-| `ADMIN_EMAIL` | 管理者としてログインを許可するGoogleアカウントのメールアドレス (例: `itati60031@gmail.com`) |
+| `ADMIN_EMAIL` | 管理者としてログインを許可するGoogleアカウントのメールアドレス (例: `XXXXX@AAA.BBB`) |
 
 #### Google OAuth 設定
 1. Google Cloud Consoleの「APIとサービス」>「認証情報」で「OAuth クライアント ID」を作成します。

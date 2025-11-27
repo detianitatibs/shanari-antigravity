@@ -1,27 +1,21 @@
 import { NextResponse } from 'next/server';
-import { jwtVerify } from 'jose';
-import { cookies } from 'next/headers';
+import { auth } from '@/auth';
 
 export async function GET() {
     try {
-        const cookieStore = await cookies();
-        const token = cookieStore.get('auth-token');
+        const session = await auth();
 
-        if (!token) {
+        if (!session?.user) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
 
-        const secret = new TextEncoder().encode(
-            process.env.JWT_SECRET || 'default-secret-key'
-        );
-
-        const { payload } = await jwtVerify(token.value, secret);
-
         return NextResponse.json({
-            id: payload.uid,
-            email: payload.email,
+            id: session.user.id,
+            email: session.user.email,
+            name: session.user.name,
         });
-    } catch {
-        return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
+    } catch (error) {
+        console.error('Error in /api/auth/me:', error);
+        return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
     }
 }

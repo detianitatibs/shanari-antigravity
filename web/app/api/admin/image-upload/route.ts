@@ -2,9 +2,15 @@ import { NextResponse } from 'next/server';
 import { StorageService } from '../../../../lib/storage';
 import { v4 as uuidv4 } from 'uuid';
 import { format } from 'date-fns';
+import { auth } from '@/auth';
 
 export async function POST(request: Request) {
     try {
+        const session = await auth();
+        if (!session?.user) {
+            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+        }
+
         const formData = await request.formData();
         const file = formData.get('image') as File;
 

@@ -6,9 +6,15 @@ import { Tag } from '../../../../lib/db/entities/Tag';
 import { AdminUser } from '../../../../lib/db/entities/AdminUser';
 import { StorageService } from '../../../../lib/storage';
 import { format } from 'date-fns';
+import { auth } from '@/auth';
 
 export async function GET(request: Request) {
     try {
+        const session = await auth();
+        if (!session?.user) {
+            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+        }
+
         if (!AppDataSource.isInitialized) {
             await AppDataSource.initialize();
         }
@@ -46,6 +52,11 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
     try {
+        const session = await auth();
+        if (!session?.user) {
+            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+        }
+
         if (!AppDataSource.isInitialized) {
             await AppDataSource.initialize();
         }

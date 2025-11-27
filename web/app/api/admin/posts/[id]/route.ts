@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { AppDataSource } from '../../../../../lib/db/data-source';
 import { Post } from '../../../../../lib/db/entities/Post';
 import { Category } from '../../../../../lib/db/entities/Category';
@@ -75,6 +76,7 @@ export async function DELETE(
             );
         }
 
+        revalidatePath('/blog');
         return NextResponse.json({ success: true });
     } catch (error) {
         console.error('Error deleting post:', error);
@@ -196,6 +198,7 @@ ${content}`;
 
         await postRepo.save(post);
 
+        revalidatePath('/blog');
         return NextResponse.json(post);
 
     } catch (error) {

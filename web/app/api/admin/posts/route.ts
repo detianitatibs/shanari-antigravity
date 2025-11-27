@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { AppDataSource } from '../../../../lib/db/data-source';
 import { Post } from '../../../../lib/db/entities/Post';
 import { Category } from '../../../../lib/db/entities/Category';
@@ -153,6 +154,7 @@ ${content}`;
 
         await postRepo.save(newPost);
 
+        revalidatePath('/blog');
         return NextResponse.json(newPost, { status: 201 });
 
     } catch (error) {

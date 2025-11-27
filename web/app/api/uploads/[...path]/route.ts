@@ -20,8 +20,39 @@ export async function GET(
         return new NextResponse('Invalid path', { status: 400 });
     }
 
-    // Locate the file in ../data/uploads
-    // Note: In Docker, this maps to /data/uploads. Locally it maps to ../data/uploads relative to web/
+    // GCS Proxy Logic
+    const bucketName = process.env.GCS_BUCKET_NAME;
+    if (bucketName) {
+        try {
+            const { Storage } = await import('@google-cloud/storage');
+            const storage = new Storage();
+            const bucket = storage.bucket(bucketName);
+            const file = bucket.file(filePath);
+
+            const [exists] = await file.exists();
+            if (!exists) {
+                return new NextResponse('File not found', { status: 404 });
+            }
+
+            const [metadata] = await file.getMetadata();
+            const contentType = metadata.contentType || 'application/octet-stream';
+
+            // Download file content
+            const [content] = await file.download();
+
+            return new NextResponse(content, {
+                headers: {
+                    'Content-Type': contentType,
+                    'Cache-Control': 'public, max-age=31536000, immutable',
+                },
+            });
+        } catch (error) {
+            console.error('GCS Proxy Error:', error);
+            return new NextResponse('Internal Server Error', { status: 500 });
+        }
+    }
+
+    // Local fallback (existing logic)
     const uploadsDir = path.join(process.cwd(), '../data', 'uploads');
     const fullPath = path.join(uploadsDir, filePath);
 

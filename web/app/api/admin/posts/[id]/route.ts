@@ -153,7 +153,10 @@ ${content}`;
             for (const catName of categories) {
                 let category = await categoryRepo.findOne({ where: { name: catName } });
                 if (!category) {
-                    category = categoryRepo.create({ name: catName });
+                    category = categoryRepo.create({
+                        name: catName,
+                        slug: catName.toLowerCase().replace(/ /g, '-'),
+                    });
                     await categoryRepo.save(category);
                 }
                 categoryEntities.push(category);

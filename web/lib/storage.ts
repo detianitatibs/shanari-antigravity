@@ -17,7 +17,9 @@ export const StorageService = {
                     contentType,
                     resumable: false,
                 });
-                return `https://storage.googleapis.com/${bucketName}/${filePath}`;
+                // Return proxy URL for images to handle auth/CORS/public access securely
+                // Direct GCS URL requires public bucket which we can't do easily with mixed content
+                return `/api/uploads/${filePath}`;
             } catch (error) {
                 console.warn('GCS upload failed, falling back to local:', error);
             }

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { GoogleTagManager } from '@next/third-parties/google';
 import "./globals.css";
 
 const geistSans = Geist({
@@ -13,6 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://shanari-shanari.com'),
   title: "Shanari",
   description: "しゃなりとしたパーソナルウェブサイトです。",
   icons: {
@@ -32,6 +34,7 @@ export default function RootLayout({
       >
         {children}
       </body>
+      <GoogleTagManager gtmId="GTM-PHFW2HWB" />
     </html>
   );
 }

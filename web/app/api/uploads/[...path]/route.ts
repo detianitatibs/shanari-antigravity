@@ -47,8 +47,8 @@ export async function GET(
                 },
             });
         } catch (error) {
-            console.error('GCS Proxy Error:', error);
-            return new NextResponse('Internal Server Error', { status: 500 });
+            console.warn('GCS Proxy Error (falling back to local):', error);
+            // Fall through to local logic
         }
     }
 

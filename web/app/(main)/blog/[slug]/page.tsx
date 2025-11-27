@@ -38,19 +38,25 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         };
     }
 
+    const thumbnail = post.thumbnail
+        ? post.thumbnail.startsWith('http')
+            ? post.thumbnail
+            : `${getAppUrl()}${post.thumbnail}`
+        : null;
+
     return {
         title: `${post.title} | Shanari`,
         description: matter(post.content).data.description,
         openGraph: {
             title: post.title,
             description: matter(post.content).data.description,
-            images: post.thumbnail ? [post.thumbnail] : [],
+            images: thumbnail ? [thumbnail] : [],
         },
         twitter: {
             card: 'summary_large_image',
             title: post.title,
             description: matter(post.content).data.description,
-            images: post.thumbnail ? [post.thumbnail] : [],
+            images: thumbnail ? [thumbnail] : [],
         },
     };
 }
@@ -68,7 +74,7 @@ export default async function BlogPostPage({ params }: PageProps) {
     const shareUrl = `${getAppUrl()}/blog/${post.slug}`;
     const shareText = post.title;
     const shareHashtags = post.tags?.map((t: { name: string }) => t.name).join(',') || '';
-    const twitterShareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}&hashtags=${encodeURIComponent(shareHashtags)}`;
+    const twitterShareUrl = `https://x.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}&hashtags=${encodeURIComponent(shareHashtags)}`;
 
     return (
         <article className="mx-auto max-w-3xl">

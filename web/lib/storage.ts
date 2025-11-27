@@ -6,7 +6,7 @@ const storage = new Storage();
 const bucketName = process.env.GCS_BUCKET_NAME || 'shanari-antigravity';
 const bucket = storage.bucket(bucketName);
 
-const USE_GCS = !!process.env.GCS_BUCKET_NAME && !!process.env.GOOGLE_APPLICATION_CREDENTIALS;
+const USE_GCS = !!process.env.GCS_BUCKET_NAME;
 
 export const StorageService = {
     async save(filePath: string, content: string | Buffer, contentType: string): Promise<string> {

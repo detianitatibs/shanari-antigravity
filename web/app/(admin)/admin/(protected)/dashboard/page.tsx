@@ -1,6 +1,6 @@
-import { AdminLayout } from '../../../../components/templates/AdminLayout';
-import { AppDataSource } from '../../../../lib/db/data-source';
-import { Post } from '../../../../lib/db/entities/Post';
+import { AdminLayout } from '@/components/templates/AdminLayout';
+import { AppDataSource } from '@/lib/db/data-source';
+import { Post } from '@/lib/db/entities/Post';
 
 async function getStats() {
     try {

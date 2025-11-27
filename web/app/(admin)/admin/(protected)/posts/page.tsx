@@ -3,9 +3,9 @@
 import { useEffect, useState, Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { AdminLayout } from '../../../../components/templates/AdminLayout';
-import { Button } from '../../../../components/atoms/Button';
-import { Pagination } from '../../../../components/molecules/Pagination';
+import { AdminLayout } from '@/components/templates/AdminLayout';
+import { Button } from '@/components/atoms/Button';
+import { Pagination } from '@/components/molecules/Pagination';
 
 interface Post {
     id: number;

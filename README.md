@@ -183,6 +183,7 @@ GitHubリポジトリの `Settings > Secrets and variables > Actions` に以下�
 | `AUTH_GOOGLE_ID` | Google OAuth Client ID |
 | `AUTH_GOOGLE_SECRET` | Google OAuth Client Secret |
 | `ADMIN_EMAIL` | 管理者としてログインを許可するGoogleアカウントのメールアドレス (例: `XXXXX@AAA.BBB`) |
+| `AUTH_TRUST_HOST` | `true` (Cloud Runなどのプロキシ背下で実行する場合に必要。CDパイプラインで設定済み) |
 
 #### Google OAuth 設定
 1. Google Cloud Consoleの「APIとサービス」>「認証情報」で「OAuth クライアント ID」を作成します。

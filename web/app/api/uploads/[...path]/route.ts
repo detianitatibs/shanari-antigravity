@@ -40,7 +40,7 @@ export async function GET(
             // Download file content
             const [content] = await file.download();
 
-            return new NextResponse(content, {
+            return new NextResponse(content as unknown as BodyInit, {
                 headers: {
                     'Content-Type': contentType,
                     'Cache-Control': 'public, max-age=31536000, immutable',
@@ -63,7 +63,7 @@ export async function GET(
     const fileBuffer = fs.readFileSync(fullPath);
     const contentType = mime.getType(fullPath) || 'application/octet-stream';
 
-    return new NextResponse(fileBuffer, {
+    return new NextResponse(fileBuffer as unknown as BodyInit, {
         headers: {
             'Content-Type': contentType,
             'Cache-Control': 'public, max-age=31536000, immutable',

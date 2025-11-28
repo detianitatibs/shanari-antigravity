@@ -2,6 +2,8 @@ import { MetadataRoute } from 'next';
 import { AppDataSource } from '../lib/db/data-source';
 import { Post } from '../lib/db/entities/Post';
 
+export const dynamic = 'force-dynamic';
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://shanari-shanari.com';
 
@@ -31,6 +33,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             lastModified: new Date(),
             changeFrequency: 'daily',
             priority: 1,
+        },
+        {
+            url: `${baseUrl}/profile`,
+            lastModified: new Date(),
+            changeFrequency: 'monthly',
+            priority: 0.8,
         },
         {
             url: `${baseUrl}/blog`,

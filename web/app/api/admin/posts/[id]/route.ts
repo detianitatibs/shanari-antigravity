@@ -202,6 +202,7 @@ ${content}`;
         await postRepo.save(post);
 
         revalidatePath('/blog');
+        revalidatePath(`/blog/${slug}`);
         return NextResponse.json(post);
 
     } catch (error) {

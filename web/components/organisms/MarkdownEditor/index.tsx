@@ -3,6 +3,7 @@
 import React, { useState, useRef } from 'react';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
+import remarkGfm from 'remark-gfm';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 
@@ -90,6 +91,7 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
                 <div className="flex-1 overflow-y-auto p-4 prose prose-zinc max-w-none dark:prose-invert">
                     <ReactMarkdown
                         rehypePlugins={[rehypeRaw]}
+                        remarkPlugins={[remarkGfm]}
                         components={{
                             // eslint-disable-next-line @typescript-eslint/no-explicit-any
                             code({ inline, className, children, ...props }: any) {

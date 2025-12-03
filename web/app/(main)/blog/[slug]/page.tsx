@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
+import remarkGfm from 'remark-gfm';
 import { Icon } from '../../../../components/atoms/Icon';
 import { format } from 'date-fns';
 import matter from 'gray-matter';
@@ -117,7 +118,7 @@ export default async function BlogPostPage({ params }: PageProps) {
             </header>
 
             <div className="prose prose-zinc mx-auto max-w-none">
-                <ReactMarkdown rehypePlugins={[rehypeRaw]}>{content}</ReactMarkdown>
+                <ReactMarkdown rehypePlugins={[rehypeRaw]} remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
             </div>
         </article>
     );

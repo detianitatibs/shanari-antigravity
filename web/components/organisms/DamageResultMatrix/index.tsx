@@ -28,11 +28,18 @@ const DamageCell: React.FC<{ result: DamageResult; hp?: number; showDetails?: bo
     // "2倍とした場合に超える場合は青色" -> 2HKO is Blue.
 
     let colorClass = 'text-zinc-600';
+    let maxColorClass = 'text-zinc-600';
+    let minColorClass = 'text-zinc-600';
     if (hp) {
         if (result.maxDamage >= hp) {
-            colorClass = 'text-red-600 font-bold';
+            maxColorClass = 'text-red-600 font-bold';
         } else if (result.maxDamage * 2 >= hp) {
-            colorClass = 'text-blue-600 font-bold';
+            maxColorClass = 'text-blue-600 font-bold';
+        }
+        if (result.minDamage >= hp) {
+            minColorClass = 'text-red-600 font-bold';
+        } else if (result.minDamage * 2 >= hp) {
+            minColorClass = 'text-blue-600 font-bold';
         }
     }
 
@@ -46,8 +53,16 @@ const DamageCell: React.FC<{ result: DamageResult; hp?: number; showDetails?: bo
 
     return (
         <div className="py-2 text-center">
-            <div className={`text-sm ${colorClass}`}>
-                {rangeText}
+            <div className="flex items-center justify-center">
+                <div className={`text-sm ${minColorClass}`}>
+                    {result.minDamage}
+                </div>
+                <div className={`text-sm ${colorClass}`}>
+                    〜
+                </div>
+                <div className={`text-sm ${maxColorClass}`}>
+                    {result.maxDamage}
+                </div>
             </div>
             {hp && (
                 <div className="text-xs text-zinc-400">

@@ -16,7 +16,7 @@ export const ToolsDamageCalculationTemplate: React.FC = () => {
                 テンキーでできるダメージ計算ツール
             </h1>
             <p className="mb-8 text-sm text-zinc-500">
-                対戦中の素早いダメージ計算を目標に少ない項目でシンプルにダメージ計算を実施します。
+                ポケモン対戦中の素早いダメージ計算を目標に、少ない入力項目でシンプルに実行できるツールです。
             </p>
 
             <section className="mb-8">

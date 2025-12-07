@@ -74,10 +74,10 @@ export const useDamageCalculation = () => {
         const typeEff = inputValues.typeEffectiveness;
 
         const groups = [
-            { label: 'タイプ不一致', stab: 1.0 },
-            { label: 'タイプ一致', stab: 1.5 },
-            { label: 'テラスタイプ不一致', stab: 1.5 }, // New Group
-            { label: 'テラス一致', stab: 2.0 },
+            { label: 'タイプ不一致(×1)', stab: 1.0 },
+            { label: 'ステラタイプ不一致(×1.2)', stab: 1.2 },
+            { label: 'タイプ一致/テラスタイプ不一致(×1.5)', stab: 1.5 },
+            { label: 'テラス/ステラタイプ一致(×2)', stab: 2.0 },
         ];
 
         const miscMods = [

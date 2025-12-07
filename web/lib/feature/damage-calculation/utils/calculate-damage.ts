@@ -85,7 +85,7 @@ export function calculateDamage(
 
     // 2. Final Power (威力)
     // TODO: Power modifiers (Items, Abilities) - Assuming move.power is final for now
-    let finalPower = move.power;
+    const finalPower = move.power;
 
     // 3. Final Attack (攻撃)
     // Rank Correction

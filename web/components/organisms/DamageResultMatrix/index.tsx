@@ -27,7 +27,7 @@ const DamageCell: React.FC<{ result: DamageResult; hp?: number; showDetails?: bo
     // BRD Text Literal: "最低乱数値、または最高乱数値がそのHPを上回っている場合は赤色" -> ANY 1HKO is Red.
     // "2倍とした場合に超える場合は青色" -> 2HKO is Blue.
 
-    let colorClass = 'text-zinc-600';
+    const colorClass = 'text-zinc-600';
     let maxColorClass = 'text-zinc-600';
     let minColorClass = 'text-zinc-600';
     if (hp) {
@@ -43,7 +43,6 @@ const DamageCell: React.FC<{ result: DamageResult; hp?: number; showDetails?: bo
         }
     }
 
-    const rangeText = `${result.minDamage} ~ ${result.maxDamage}`;
     let percentText = '';
     if (hp) {
         const minP = Math.floor((result.minDamage / hp) * 100);

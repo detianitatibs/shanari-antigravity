@@ -18,7 +18,7 @@ export const RankInput: React.FC<RankInputProps> = ({
     onKeyDown
 }) => {
     // Range -6 to +6
-    const ranks = Array.from({ length: 13 }, (_, i) => 6 - i); // [6, 5, ..., -6]
+    // const ranks = Array.from({ length: 13 }, (_, i) => 6 - i); // [6, 5, ..., -6]
 
     const inputId = id || `rank-input-${label}`;
 

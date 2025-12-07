@@ -5,7 +5,7 @@ export const Nav: React.FC = () => {
     const links = [
         { href: '/profile', label: 'Profile' },
         { href: '/blog', label: 'Blog' },
-        { href: '/pokemon-damage-calculation', label: 'Damage Calc' },
+        { href: '/pokemon-damage-calculation', label: 'PokémonDamageCalc' },
     ];
 
     return (

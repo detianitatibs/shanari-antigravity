@@ -13,7 +13,7 @@ export const Header: React.FC = () => {
     const navLinks = [
         { href: '/profile', label: 'Profile' },
         { href: '/blog', label: 'Blog' },
-        { href: '/pokemon-damage-calculation', label: 'Damage Calc' },
+        { href: '/pokemon-damage-calculation', label: 'PokémonDamageCalc' },
     ];
     return (
         <header className="bg-white border-b border-zinc-200 sticky top-0 z-50">

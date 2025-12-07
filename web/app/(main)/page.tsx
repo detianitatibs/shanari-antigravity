@@ -44,20 +44,20 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Portfolio/Works Tile (Placeholder) */}
-        {/*
         <div className="group relative rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-md">
-          <h3 className="text-lg font-semibold text-zinc-900">Works</h3>
+          <h3 className="text-lg font-semibold text-zinc-900">テンキーでできるダメージ計算ツール</h3>
           <p className="mt-2 text-zinc-500">
-            Check out my projects and contributions.
+            ポケモン対戦中の素早いダメージ計算を目的に、少ない入力項目でシンプルに実行できるツール
           </p>
           <div className="mt-4">
-            <Button variant="secondary" size="sm" disabled>
-              Coming Soon
-            </Button>
+            <Link href="/pokemon-damage-calculation">
+              <Button variant="secondary" size="sm">
+                Open Tool
+              </Button>
+            </Link>
           </div>
         </div>
-        */}
+
       </div>
     </div>
   );

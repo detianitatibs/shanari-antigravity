@@ -173,7 +173,15 @@ export const DamageResultMatrix: React.FC<DamageResultMatrixProps> = ({ matrix, 
 
             <div className="p-4 text-xs text-zinc-500 border-t border-zinc-200">
                 <p>・赤色: 確定1発 / 青色: 確定2発 (乱数1発含む場合あり)</p>
-                <p>・クリックで詳細補正アコーディオンを展開</p>
+                <p>・クリックでダメージ補正一覧を展開</p>
+                <p>操作説明</p>
+                <p>・TAB/ENTERキー: 次の項目へ移動</p>
+                <p>・Shift+TAB: 前の項目へ移動</p>
+                <p>・↑↓キー: 数値の増減、ランクの変更</p>
+                <p>・←→キー: タイプ相性の変更</p>
+                <p>・ESCキー: すべてリセット</p>
+                <p>現時点で認識している対応できていないケース</p>
+                <p>・ダブルバトルで壁を貼っている時のシングルダメージ(ダブルでシングルダメージ時の壁はダブルの約2/3適用のため)</p>
             </div>
         </div>
     );

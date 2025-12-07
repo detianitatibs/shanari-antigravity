@@ -81,10 +81,15 @@ export const DamageInputForm: React.FC<DamageInputFormProps> = ({
                             onChange={(v) => handleChange('power', v)}
                             autoFocus // Focus on Load
                             onKeyDown={(e) => {
-                                // Loop back to Power on Tab (forward only)
-                                if (e.key === 'Tab' && e.shiftKey) {
+                                // Loop back to Power on Tab or Enter (forward only)
+                                if ((e.key === 'Tab' || e.key === 'Enter') && e.shiftKey) {
                                     e.preventDefault();
                                     document.getElementById('input-defenseRank')?.focus();
+                                }
+                                // Next to Attack on Enter (forward only)
+                                else if (e.key === 'Enter' && !e.shiftKey) {
+                                    e.preventDefault();
+                                    document.getElementById('input-attack')?.focus();
                                 }
                             }}
                         />
@@ -97,6 +102,18 @@ export const DamageInputForm: React.FC<DamageInputFormProps> = ({
                             label="攻撃実数値"
                             value={values.attack}
                             onChange={(v) => handleChange('attack', v)}
+                            onKeyDown={(e) => {
+                                // Next to Defense on Tab (forward only)
+                                if ((e.key === 'Tab' || e.key === 'Enter') && !e.shiftKey) {
+                                    e.preventDefault();
+                                    document.getElementById('input-defense')?.focus();
+                                }
+                                // Back to Power on Enter   
+                                else if (e.key === 'Enter' && e.shiftKey) {
+                                    e.preventDefault();
+                                    document.getElementById('input-power')?.focus();
+                                }
+                            }}
                         />
                     </div>
 
@@ -107,6 +124,18 @@ export const DamageInputForm: React.FC<DamageInputFormProps> = ({
                             label="防御実数値"
                             value={values.defense}
                             onChange={(v) => handleChange('defense', v)}
+                            onKeyDown={(e) => {
+                                // Next to HP on Enter (Forward only)
+                                if (e.key === 'Enter' && !e.shiftKey) {
+                                    e.preventDefault();
+                                    document.getElementById('input-hp')?.focus();
+                                }
+                                // Back to Attack on Shift+Enter
+                                else if (e.key === 'Enter' && e.shiftKey) {
+                                    e.preventDefault();
+                                    document.getElementById('input-attack')?.focus();
+                                }
+                            }}
                         />
                     </div>
 
@@ -117,6 +146,18 @@ export const DamageInputForm: React.FC<DamageInputFormProps> = ({
                             label="HP"
                             value={values.hp}
                             onChange={(v) => handleChange('hp', v)}
+                            onKeyDown={(e) => {
+                                // Next to Type Effectiveness on Enter (Forward only)
+                                if (e.key === 'Enter' && !e.shiftKey) {
+                                    e.preventDefault();
+                                    document.getElementById('input-typeEffectiveness')?.focus();
+                                }
+                                // Back to Defense on Shift+Enter
+                                else if (e.key === 'Enter' && e.shiftKey) {
+                                    e.preventDefault();
+                                    document.getElementById('input-defense')?.focus();
+                                }
+                            }}
                         />
                     </div>
 
@@ -126,6 +167,18 @@ export const DamageInputForm: React.FC<DamageInputFormProps> = ({
                             label="タイプ相性"
                             value={values.typeEffectiveness}
                             onChange={(v) => handleChange('typeEffectiveness', v)}
+                            onKeyDown={(e) => {
+                                // Next to Attack Rank on Enter (Forward only)
+                                if (e.key === 'Enter' && !e.shiftKey) {
+                                    e.preventDefault();
+                                    document.getElementById('input-attackRank')?.focus();
+                                }
+                                // Back to HP on Shift+Enter
+                                else if (e.key === 'Enter' && e.shiftKey) {
+                                    e.preventDefault();
+                                    document.getElementById('input-hp')?.focus();
+                                }
+                            }}
                         />
                     </div>
 
@@ -138,6 +191,18 @@ export const DamageInputForm: React.FC<DamageInputFormProps> = ({
                             label="攻撃補正ランク"
                             value={values.attackRank}
                             onChange={(v) => handleChange('attackRank', v)}
+                            onKeyDown={(e) => {
+                                // Next to Defense Rand on Enter (Forward only)
+                                if (e.key === 'Enter' && !e.shiftKey) {
+                                    e.preventDefault();
+                                    document.getElementById('input-defenseRank')?.focus();
+                                }
+                                // Back to Attack Rank on Shift+Enter
+                                else if (e.key === 'Enter' && e.shiftKey) {
+                                    e.preventDefault();
+                                    document.getElementById('input-typeEffectiveness')?.focus();
+                                }
+                            }}
                         />
                     </div>
 
@@ -150,10 +215,15 @@ export const DamageInputForm: React.FC<DamageInputFormProps> = ({
                             value={values.defenseRank}
                             onChange={(v) => handleChange('defenseRank', v)}
                             onKeyDown={(e) => {
-                                // Loop back to Power on Tab (forward only)
-                                if (e.key === 'Tab' && !e.shiftKey) {
+                                // Loop back to Power on Tab or Enter (Forward only)
+                                if ((e.key === 'Tab' || e.key === 'Enter') && !e.shiftKey) {
                                     e.preventDefault();
                                     document.getElementById('input-power')?.focus();
+                                }
+                                // Back to Attack Rank on Shift+Enter
+                                else if (e.key === 'Enter' && e.shiftKey) {
+                                    e.preventDefault();
+                                    document.getElementById('input-attackRank')?.focus();
                                 }
                             }}
                         />
@@ -162,13 +232,13 @@ export const DamageInputForm: React.FC<DamageInputFormProps> = ({
             </div>
 
             {/* Instructions */}
-            <div className="mt-6 text-xs text-zinc-500 space-y-1">
+            {/* <div className="mt-6 text-xs text-zinc-500 space-y-1">
                 <p>・TAB/ENTERキー: 次の項目へ移動</p>
                 <p>・Shift+TAB: 前の項目へ移動</p>
                 <p>・↑↓キー: 数値の増減、ランクの変更</p>
                 <p>・←→キー: タイプ相性の変更</p>
                 <p>・ESCキー: すべてリセット</p>
-            </div>
+            </div> */}
         </div>
     );
 };

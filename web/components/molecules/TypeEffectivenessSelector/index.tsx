@@ -5,6 +5,7 @@ interface TypeEffectivenessSelectorProps {
     onChange: (value: number) => void;
     label?: string;
     className?: string;
+    onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
 const OPTIONS = [
@@ -19,9 +20,16 @@ export const TypeEffectivenessSelector: React.FC<TypeEffectivenessSelectorProps>
     value,
     onChange,
     label,
-    className = ''
+    className = '',
+    onKeyDown
 }) => {
-    const handleKeyDown = (e: React.KeyboardEvent) => {
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        // Trigger external handler first (e.g., for Tab Loop)
+        if (onKeyDown) {
+            onKeyDown(e);
+            if (e.defaultPrevented) return;
+        }
+
         const currentIndex = OPTIONS.findIndex(o => o.value === value);
         if (currentIndex === -1) return;
 
@@ -49,6 +57,7 @@ export const TypeEffectivenessSelector: React.FC<TypeEffectivenessSelectorProps>
                 onKeyDown={handleKeyDown}
                 role="radiogroup"
                 aria-label={label}
+                id="input-typeEffectiveness"
             >
                 {OPTIONS.map((option) => (
                     <button

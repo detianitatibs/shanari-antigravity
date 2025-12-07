@@ -46,6 +46,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             changeFrequency: 'daily',
             priority: 0.8,
         },
+        {
+            url: `${baseUrl}/pokemon-damage-calculation`,
+            lastModified: new Date(),
+            changeFrequency: 'monthly',
+            priority: 0.8,
+        },
         ...postUrls,
     ];
 }

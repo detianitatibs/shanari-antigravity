@@ -70,7 +70,7 @@ const DamageCell: React.FC<{ result: DamageResult; hp?: number; showDetails?: bo
             )}
             {showDetails && (
                 <div className="mt-1 flex justify-center">
-                    <div className="grid grid-cols-4 md:grid-cols-8 gap-x-1 gap-y-0 text-[10px] text-zinc-500 text-center">
+                    <div className="grid grid-cols-4 lg:grid-cols-8 gap-x-1 gap-y-0 text-[10px] text-zinc-500 text-center">
                         {result.rolls.map((r, i) => (
                             <span key={i} className="inline-block min-w-[4ch] overflow-hidden text-ellipsis">{r}</span>
                         ))}

@@ -1,11 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { PostService } from '../../../../lib/db/services/post';
 import { Post } from '../../../../lib/db/entities/Post';
-import { Category } from '../../../../lib/db/entities/Category';
 import { Tag } from '../../../../lib/db/entities/Tag';
 
 // Mock dependencies
-const { mockCreateQueryBuilder, mockGetRepository, mockFindOne } = vi.hoisted(() => {
+const { mockGetRepository, mockFindOne } = vi.hoisted(() => {
     const mockAndWhere = vi.fn().mockReturnThis();
     const mockWhere = vi.fn().mockReturnThis();
     const mockLeftJoinAndSelect = vi.fn().mockReturnThis();
@@ -65,7 +64,7 @@ describe('PostService', () => {
             const mockContent = '# Content';
 
             mockFindOne.mockResolvedValue(mockPost);
-            (fileService.getFileContent as any).mockResolvedValue(mockContent);
+            vi.mocked(fileService.getFileContent).mockResolvedValue(mockContent);
 
             const result = await PostService.getPostWithContent('slug');
 
@@ -90,7 +89,7 @@ describe('PostService', () => {
 
             // Setup mock return for getMany
             const mockQueryBuilder = mockGetRepository().createQueryBuilder();
-            (mockQueryBuilder.getMany as any).mockResolvedValue(mockRecentPosts);
+            vi.mocked(mockQueryBuilder.getMany).mockResolvedValue(mockRecentPosts);
 
             const result = await PostService.getRelatedPosts(currentPost);
 
@@ -109,7 +108,7 @@ describe('PostService', () => {
 
             // Setup mock return for getMany (candidates)
             const mockQueryBuilder = mockGetRepository().createQueryBuilder();
-            (mockQueryBuilder.getMany as any).mockResolvedValue([postOutput, postWithTag]);
+            vi.mocked(mockQueryBuilder.getMany).mockResolvedValue([postOutput, postWithTag]);
 
             const result = await PostService.getRelatedPosts(currentPost);
 

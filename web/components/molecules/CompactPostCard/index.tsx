@@ -20,7 +20,6 @@ export const CompactPostCard: React.FC<CompactPostCardProps> = ({
     title,
     slug,
     publishedAt,
-    categories,
     thumbnail,
 }) => {
     return (

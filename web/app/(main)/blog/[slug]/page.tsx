@@ -3,7 +3,12 @@ import { notFound } from 'next/navigation';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
+import rehypeSlug from 'rehype-slug';
 import { Icon } from '../../../../components/atoms/Icon';
+import { TableOfContents } from '../../../../components/molecules/TableOfContents';
+import { extractHeadings } from '../../../../lib/utils/markdown';
+import { PostService } from '../../../../lib/db/services/post';
+import { RelatedPosts } from '../../../../components/organisms/RelatedPosts';
 import { format } from 'date-fns';
 import matter from 'gray-matter';
 import { getAppUrl } from '../../../../lib/utils';
@@ -13,20 +18,13 @@ interface PageProps {
 }
 
 async function getPost(slug: string) {
-    const res = await fetch(`${getAppUrl()}/api/posts/${slug}`, {
-        next: { revalidate: 3600 },
-        cache: 'force-cache',
-    });
+    const post = await PostService.getPostWithContent(slug);
 
-    if (res.status === 404) {
+    if (!post) {
         return null;
     }
 
-    if (!res.ok) {
-        throw new Error('Failed to fetch post');
-    }
-
-    return res.json();
+    return post;
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -70,7 +68,10 @@ export default async function BlogPostPage({ params }: PageProps) {
         notFound();
     }
 
+    const relatedPosts = await PostService.getRelatedPosts(post);
+
     const { content, data } = matter(post.content);
+    const headings = extractHeadings(content);
 
     const shareUrl = `${getAppUrl()}/blog/${post.slug}`;
     const shareText = post.title;
@@ -103,7 +104,7 @@ export default async function BlogPostPage({ params }: PageProps) {
                     <p className="mb-4 text-lg text-zinc-600">{data.description}</p>
                 )}
                 <div className="flex flex-col items-center gap-4">
-                    <time dateTime={post.publishedAt} className="text-zinc-500">
+                    <time dateTime={post.publishedAt instanceof Date ? post.publishedAt.toISOString() : post.publishedAt} className="text-zinc-500">
                         {format(new Date(post.publishedAt), 'MMMM d, yyyy')}
                     </time>
                     <a
@@ -117,9 +118,18 @@ export default async function BlogPostPage({ params }: PageProps) {
                 </div>
             </header>
 
+            <TableOfContents headings={headings} />
+
             <div className="prose prose-zinc mx-auto max-w-none">
-                <ReactMarkdown rehypePlugins={[rehypeRaw]} remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
+                <ReactMarkdown
+                    rehypePlugins={[rehypeRaw, rehypeSlug]}
+                    remarkPlugins={[remarkGfm]}
+                >
+                    {content}
+                </ReactMarkdown>
             </div>
+
+            <RelatedPosts posts={relatedPosts} />
         </article>
     );
 }

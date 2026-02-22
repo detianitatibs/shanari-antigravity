@@ -1,5 +1,6 @@
 import { DefaultLayout } from '../../components/templates/DefaultLayout';
 import Script from 'next/script';
+import { GoogleTagManager } from '@next/third-parties/google';
 
 export default function MainLayout({
     children,
@@ -15,6 +16,9 @@ export default function MainLayout({
                 strategy="afterInteractive"
             />
             <DefaultLayout>{children}</DefaultLayout>
+            {process.env.NODE_ENV === 'production' && (
+                <GoogleTagManager gtmId="GTM-PHFW2HWB" />
+            )}
         </>
     );
 }

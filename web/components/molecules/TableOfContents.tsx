@@ -48,7 +48,7 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
     };
 
     return (
-        <nav className="mb-8 rounded-lg bg-zinc-50 p-6 shadow-sm dark:bg-zinc-800/50">
+        <nav className="mb-8 rounded-lg bg-zinc-50 p-6 shadow-sm dark:bg-zinc-800">
             <h2 className="mb-4 text-lg font-bold text-zinc-900 dark:text-zinc-100">
                 目次
             </h2>
@@ -62,9 +62,9 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
                         <a
                             href={`#${heading.id}`}
                             onClick={(e) => handleClick(e, heading.id)}
-                            className={`block text-sm transition-colors duration-200 hover:text-indigo-600 dark:hover:text-indigo-400 ${activeId === heading.id
+                            className={`block text-sm transition-colors duration-200 hover:text-indigo-600 dark:hover:text-indigo-300 ${activeId === heading.id
                                 ? 'font-medium text-indigo-600 dark:text-indigo-400'
-                                : 'text-zinc-600 dark:text-zinc-400'
+                                : 'text-zinc-600 dark:text-zinc-300'
                                 }`}
                         >
                             {heading.text}

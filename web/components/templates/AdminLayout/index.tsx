@@ -53,7 +53,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
                 )}
 
                 <main className="flex-1 p-4 md:p-8 w-full overflow-x-hidden">
-                    <div className="mx-auto max-w-5xl">
+                    <div className="mx-auto w-full">
                         {children}
                     </div>
                 </main>

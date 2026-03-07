@@ -58,8 +58,8 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
     };
 
     return (
-        <div className="grid h-[600px] grid-cols-1 gap-4 md:grid-cols-2">
-            <div className="flex flex-col rounded-lg border border-zinc-200 bg-white shadow-sm">
+        <div className="grid h-[800px] grid-cols-1 grid-rows-2 gap-4 md:h-[600px] md:grid-cols-2 md:grid-rows-1">
+            <div className="flex flex-col overflow-hidden rounded-lg border border-zinc-200 bg-white shadow-sm">
                 <div className="border-b border-zinc-200 bg-zinc-50 px-4 py-2 flex items-center gap-2">
                     <span className="text-sm font-medium text-zinc-700">Editor</span>
                     <div className="ml-auto flex items-center gap-2">

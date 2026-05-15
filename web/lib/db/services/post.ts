@@ -1,14 +1,12 @@
-import { AppDataSource } from '../data-source';
+import { getInitializedDataSource } from '../data-source';
 import { Post } from '../entities/Post';
 import { FindOneOptions } from 'typeorm';
 import { fileService } from '../../storage/file-service';
 
 export class PostService {
     private static async getRepository() {
-        if (!AppDataSource.isInitialized) {
-            await AppDataSource.initialize();
-        }
-        return AppDataSource.getRepository(Post);
+        const dataSource = await getInitializedDataSource();
+        return dataSource.getRepository(Post);
     }
 
     static async getPosts(options: {

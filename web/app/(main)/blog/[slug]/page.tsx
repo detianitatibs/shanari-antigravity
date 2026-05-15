@@ -9,6 +9,7 @@ import { TableOfContents } from '../../../../components/molecules/TableOfContent
 import { extractHeadings } from '../../../../lib/utils/markdown';
 import { PostService } from '../../../../lib/db/services/post';
 import { RelatedPosts } from '../../../../components/organisms/RelatedPosts';
+import { MarkdownImage } from '../../../../components/atoms/MarkdownImage';
 import { format } from 'date-fns';
 import matter from 'gray-matter';
 import { getAppUrl } from '../../../../lib/utils';
@@ -124,6 +125,10 @@ export default async function BlogPostPage({ params }: PageProps) {
                 <ReactMarkdown
                     rehypePlugins={[rehypeRaw, rehypeSlug]}
                     remarkPlugins={[remarkGfm]}
+                    components={{
+                        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                        img: ({ node: _, src, alt, ...rest }) => <MarkdownImage src={src as string} alt={alt as string} {...rest} />
+                    }}
                 >
                     {content}
                 </ReactMarkdown>

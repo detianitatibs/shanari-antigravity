@@ -30,3 +30,20 @@ export const AppDataSource = new DataSource({
     migrations: [],
     subscribers: [],
 });
+
+let initPromise: Promise<DataSource> | null = null;
+
+export const getInitializedDataSource = async (): Promise<DataSource> => {
+    if (AppDataSource.isInitialized) {
+        return AppDataSource;
+    }
+
+    if (!initPromise) {
+        initPromise = AppDataSource.initialize().catch((error) => {
+            initPromise = null;
+            throw error;
+        });
+    }
+
+    return initPromise;
+};

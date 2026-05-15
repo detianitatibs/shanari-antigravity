@@ -6,7 +6,7 @@ export default function Home() {
     <div className="flex flex-col items-center justify-center space-y-12 py-12">
       <div className="text-center space-y-4">
         <h1 className="text-4xl font-bold tracking-tight text-zinc-900 sm:text-6xl">
-          Welcome to Shanari
+          shanari-shanari.com
         </h1>
         <p className="text-lg text-zinc-600 max-w-2xl mx-auto">
           しゃなりとしたパーソナルウェブサイトです。

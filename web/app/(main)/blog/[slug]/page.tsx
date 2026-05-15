@@ -127,7 +127,7 @@ export default async function BlogPostPage({ params }: PageProps) {
                     remarkPlugins={[remarkGfm]}
                     components={{
                         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                        img: ({ node: _, src, alt, ...rest }: any) => <MarkdownImage src={src as string} alt={alt as string} {...rest} />
+                        img: ({ node: _, src, alt, ...rest }) => <MarkdownImage src={src as string} alt={alt as string} {...rest} />
                     }}
                 >
                     {content}

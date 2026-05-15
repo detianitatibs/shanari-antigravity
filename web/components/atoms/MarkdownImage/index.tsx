@@ -14,6 +14,7 @@ export const MarkdownImage: React.FC<MarkdownImageProps> = ({ src, alt, ...props
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setMounted(true);
     }, []);
 

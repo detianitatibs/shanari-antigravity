@@ -46,6 +46,19 @@ export default function ProfilePage() {
                 </section>
 
                 <section>
+                    <h2 className="text-xl font-semibold text-zinc-900 mb-3">Certifications</h2>
+                    <p className="text-zinc-600 leading-relaxed">
+                        AWS Certified Solutions Architect – Associate
+                    </p>
+                    <p className="text-zinc-600 leading-relaxed">
+                        AWS Certified Data Engineer – Associate
+                    </p>
+                    <p className="text-zinc-600 leading-relaxed">
+                        JDLA Deep Learning for GENERAL 2024 #5
+                    </p>
+                </section>
+
+                <section>
                     <h2 className="text-xl font-semibold text-zinc-900 mb-3">Contact</h2>
                     <p className="text-zinc-600">
                         X: <a href="https://x.com/itatibs" target="_blank" className="text-indigo-600 hover:underline">itatibs</a>

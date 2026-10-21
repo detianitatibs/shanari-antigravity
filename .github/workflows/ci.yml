@@ -38,4 +38,4 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: Build Docker image
-      run: docker build . --file Dockerfile --tag web-app:latest
+      run: docker build --pull . --file Dockerfile --tag web-app:latest
